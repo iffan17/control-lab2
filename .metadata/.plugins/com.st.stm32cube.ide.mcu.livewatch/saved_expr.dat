@@ -1,4 +1,9 @@
 QEIReadRaw
-a
-rad
-RxBuffer
+ADC_RawRead
+x
+y
+Vfeedback
+position
+setVolt
+inVolt
+testpwm
