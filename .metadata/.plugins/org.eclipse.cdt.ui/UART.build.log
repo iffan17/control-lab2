@@ -1,0 +1,24 @@
+11:39:53 **** Incremental Build of configuration Debug for project UART ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'UARTPollingMethod':
+../Core/Src/main.c:273:67: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+  273 |                 sprintf((char*)TxBuffer,"Received Timeout : %s\r\n",RxBuffer);
+      |                                                                   ^
+../Core/Src/main.c:273:17: note: 'sprintf' output between 22 and 41 bytes into a destination of size 40
+  273 |                 sprintf((char*)TxBuffer,"Received Timeout : %s\r\n",RxBuffer);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "UART.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\UART\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="UART.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: UART.elf
+ 
+arm-none-eabi-size  UART.elf 
+arm-none-eabi-objdump -h -S UART.elf  > "UART.list"
+   text	   data	    bss	    dec	    hex	filename
+  22208	    100	   2116	  24424	   5f68	UART.elf
+Finished building: default.size.stdout
+ 
+Finished building: UART.list
+ 
+
+11:39:54 Build Finished. 0 errors, 1 warnings. (took 1s.622ms)
+

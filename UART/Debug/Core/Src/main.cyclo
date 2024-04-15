@@ -1,0 +1,9 @@
+../Core/Src/main.c:70:5:main	1
+../Core/Src/main.c:121:6:SystemClock_Config	3
+../Core/Src/main.c:168:13:MX_LPUART1_UART_Init	5
+../Core/Src/main.c:215:13:MX_GPIO_Init	1
+../Core/Src/main.c:252:6:UARTPollingMethod	3
+../Core/Src/main.c:279:6:DummyTask	2
+../Core/Src/main.c:288:6:UARTInterruptConfig	1
+../Core/Src/main.c:293:6:HAL_UART_RxCpltCallback	2
+../Core/Src/main.c:311:6:Error_Handler	1
