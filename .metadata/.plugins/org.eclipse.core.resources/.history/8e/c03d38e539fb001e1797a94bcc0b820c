@@ -50,8 +50,7 @@ TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim5;
 
 /* USER CODE BEGIN PV */
-float QEIReadRaw;
-float Degree;
+uint32_t QEIReadRaw;
 uint16_t ADC_RawRead[200];
 arm_pid_instance_f32 PID = {0};
 float position =0;
@@ -134,7 +133,6 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  QEIReadRaw = __HAL_TIM_GET_COUNTER(&htim5);
-	  Degree = (QEIReadRaw/48)*360;
 	  for (uint16_t i =0; i < 100;i++)
 	  {
 		  x += ADC_RawRead[(i*2)];
@@ -346,9 +344,9 @@ static void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 169;
+  htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 999;
+  htim3.Init.Period = 65535;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
@@ -360,7 +358,7 @@ static void MX_TIM3_Init(void)
   {
     Error_Handler();
   }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
   {

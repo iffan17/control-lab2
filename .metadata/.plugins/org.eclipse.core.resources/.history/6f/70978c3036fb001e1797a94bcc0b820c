@@ -50,8 +50,7 @@ TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim5;
 
 /* USER CODE BEGIN PV */
-float QEIReadRaw;
-float Degree;
+uint32_t QEIReadRaw;
 uint16_t ADC_RawRead[200];
 arm_pid_instance_f32 PID = {0};
 float position =0;
@@ -76,6 +75,8 @@ float PlantSimulation(float VIn) ;
 /* USER CODE BEGIN 0 */
 uint32_t x;
 uint32_t y;
+uint16_t position;
+uint16_t setposition;
 /* USER CODE END 0 */
 
 /**
@@ -118,7 +119,7 @@ int main(void)
   HAL_TIM_Base_Start(&htim3);
   HAL_TIM_Base_Start(&htim4);
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
-  HAL_TIM_Encoder_Start(&htim5,TIM_CHANNEL_ALL);
+  HAL_TIM_Encoder_Start(&htim3,TIM_CHANNEL_ALL);
 
   PID.Kp =0.1;
   PID.Ki =0.00001;
@@ -133,8 +134,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  QEIReadRaw = __HAL_TIM_GET_COUNTER(&htim5);
-	  Degree = (QEIReadRaw/48)*360;
+	  QEIReadRaw = __HAL_TIM_GET_COUNTER(&htim3);
 	  for (uint16_t i =0; i < 100;i++)
 	  {
 		  x += ADC_RawRead[(i*2)];
@@ -450,9 +450,9 @@ static void MX_TIM5_Init(void)
 
   /* USER CODE END TIM5_Init 1 */
   htim5.Instance = TIM5;
-  htim5.Init.Prescaler = 0;
+  htim5.Init.Prescaler = 47;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim5.Init.Period = 47;
+  htim5.Init.Period = 4294967295;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
