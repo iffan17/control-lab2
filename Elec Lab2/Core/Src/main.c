@@ -76,6 +76,8 @@ float PlantSimulation(float VIn) ;
 /* USER CODE BEGIN 0 */
 uint32_t x;
 uint32_t y;
+float inVolt;
+float setVolt;
 /* USER CODE END 0 */
 
 /**
@@ -123,6 +125,7 @@ int main(void)
   PID.Kp =0.1;
   PID.Ki =0.00001;
   PID.Kd = 0.1;
+  setVolt = 0;
   arm_pid_init_f32(&PID, 0);
   /* USER CODE END 2 */
 
@@ -144,12 +147,25 @@ int main(void)
 	  setposition = y/100;
 	  x = 0;
 	  y = 0;
-
+	  //inVolt = (position/4096)*2*3.14;
+	  inVolt = (QEIReadRaw/48)*2*3.14;
+	  //setVolt = (setposition/4096)*3.3;
 	  static uint32_t timestamp =0;
+
 	  if(timestamp < HAL_GetTick())
 	  {
 	  timestamp = HAL_GetTick()+10;
-	  Vfeedback = arm_pid_f32(&PID, setposition - position);
+	  Vfeedback = arm_pid_f32(&PID, setVolt - inVolt);
+
+	  if(Vfeedback >= 0)
+	  {
+		  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, Vfeedback);
+		  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, 0);
+	  }
+	  else{
+		  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 0);
+		  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, -Vfeedback);
+	  }
 	  //__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, Vfeedback*2000/3.3);
 	  //position = PlantSimulation(Vfeedback);
 	  }
@@ -394,7 +410,7 @@ static void MX_TIM4_Init(void)
   htim4.Instance = TIM4;
   htim4.Init.Prescaler = 169;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 19999;
+  htim4.Init.Period = 19;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
@@ -421,6 +437,11 @@ static void MX_TIM4_Init(void)
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.Pulse = 0;
+  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
   }

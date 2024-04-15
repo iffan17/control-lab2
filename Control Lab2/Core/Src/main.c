@@ -106,6 +106,7 @@ void ADC_Read_blocking();
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
