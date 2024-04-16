@@ -10,4 +10,4 @@
 ../Core/Src/main.c:653:13:MX_DMA_Init	1
 ../Core/Src/main.c:672:13:MX_GPIO_Init	1
 ../Core/Src/main.c:719:6:HAL_TIM_PeriodElapsedCallback	3
-../Core/Src/main.c:746:6:Error_Handler	1
+../Core/Src/main.c:748:6:Error_Handler	1

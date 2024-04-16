@@ -724,7 +724,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  //spd =  QEIReadRaw * 1000 / 250 * 8;
 	  if(QEIReadRaw > 32678)
 	  {
-		  pos -= (65536-QEIReadRaw);
+		  pos -= (65356-QEIReadRaw);
 		  z = 1;
 	  }
 	  else
