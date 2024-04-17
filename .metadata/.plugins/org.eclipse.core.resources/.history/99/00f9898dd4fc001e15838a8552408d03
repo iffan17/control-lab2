@@ -60,7 +60,8 @@ int16_t z;
 uint32_t testpwm;
 float inPos;
 int32_t setPos;
-
+int32_t pos;
+float set_pos;
 float PWM1;
 float PWM2;
 ////////////////////////////////////////////////////////////////
@@ -69,22 +70,18 @@ float QEIReadOld;
 float Degree;
 uint16_t ADC_RawRead[200];
 arm_pid_instance_f32 PID = {0};
-int32_t posADC =0;
-int32_t setADC ;
-int32_t posQEI = 0;
-int32_t pos;
-float set_pos;
+uint16_t posADC =0;
+uint16_t setADC ;
 float Vfeedback = 0;
 float Vneg = 0;
 ////////////////////////////////////////////////////////////////
+int16_t rxBuffer[4];
 uint8_t a;
 uint8_t b;
 uint16_t set_ADC = 10;
 uint8_t ADCst ;
 uint8_t ADCnd ;
 uint8_t txBuffer[4];
-int16_t rxBuffer[4];
-uint8_t mode ;
 
 /* USER CODE END PV */
 
@@ -162,7 +159,6 @@ int main(void)
   PID.Kd = 0;
   set_pos = 0;
   z = 0;
-  mode = 0;
   arm_pid_init_f32(&PID, 0);
   /* USER CODE END 2 */
 
@@ -184,20 +180,9 @@ int main(void)
 	  setADC = y/(100);
 	  x = 0;
 	  y = 0;
-	  if(mode = 0){
-	  	  pos = posADC;
-		  set_pos = setADC;
-		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/3072;
-  	  }
-	  else if(mode = 1){
-		  pos = posQEI;
-		  set_pos = setADC;
-		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/3072;
-	  }
-	  else if(mode = 2){
-		  Vfeedback = rxBuffer[2];
-	  }
 
+
+	  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/3072;
 	  if(Vfeedback > 0)
 	  {
 		  //z = 1;
@@ -749,12 +734,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  //spd =  QEIReadRaw * 1000 / 250 * 8;
 	  if(QEIReadRaw > 32678)
 	  {
-		  posQEI -= (65536-QEIReadRaw);
+		  pos -= (65536-QEIReadRaw);
 		  z = 1;
 	  }
 	  else
 	  {
-		  posQEI += QEIReadRaw;
+		  pos += QEIReadRaw;
 		  z = 2;
 	  }
 	  QEIReadOld = QEIReadRaw;
@@ -775,13 +760,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  {
 		  ADCst = (uint8_t)(set_ADC & 0xFF);
 		  ADCnd = (uint8_t)((set_ADC >> 8) & 0xFF);
-		  txBuffer[0] = 69;
-		  txBuffer[1] = ADCst ;
-		  txBuffer[2] = ADCnd ;
-		  txBuffer[3] = '\n';
-		  HAL_UART_Transmit(&hlpuart1, txBuffer, 4, 100);
-		  HAL_UART_Receive(&hlpuart1, rxBuffer, 4, 100);
-		  rxBuffer[2] = (rxBuffer[0]-69)/256;
+		  txBuffer = {69, ADCst, ADCnd, '\n'};
+		  HAL_UART_Transmit(&hlpuart1, txBuffer, 4, 20);
 	  }
 
 	  }
