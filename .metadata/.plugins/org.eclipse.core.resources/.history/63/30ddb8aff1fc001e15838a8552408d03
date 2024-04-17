@@ -84,7 +84,7 @@ uint8_t ADCst ;
 uint8_t ADCnd ;
 uint8_t txBuffer[4];
 int16_t rxBuffer[4];
-float mode ;
+uint8_t mode ;
 
 /* USER CODE END PV */
 
@@ -186,12 +186,12 @@ int main(void)
 /////////  MODE CHANGE  ////////////////////////////////////////////////////
 	  if(mode == 0){
 	  	  pos = posADC;
-		  set_pos = 1;
+		  set_pos = setADC;
 		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
   	  }
 	  else if(mode == 1){
 		  pos = posQEI*360/3072;
-		  set_pos = 2;
+		  set_pos = setADC;
 		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
 	  }
 	  else if(mode == 2){

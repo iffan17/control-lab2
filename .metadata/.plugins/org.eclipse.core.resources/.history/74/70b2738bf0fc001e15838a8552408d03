@@ -69,11 +69,11 @@ float QEIReadOld;
 float Degree;
 uint16_t ADC_RawRead[200];
 arm_pid_instance_f32 PID = {0};
-float posADC =0;
-float setADC = 0;
-float posQEI = 0;
-float pos = 0;
-float set_pos = 0;
+int32_t posADC =0;
+int32_t setADC ;
+int32_t posQEI = 0;
+int32_t pos;
+float set_pos;
 float Vfeedback = 0;
 float Vneg = 0;
 ////////////////////////////////////////////////////////////////
@@ -84,7 +84,7 @@ uint8_t ADCst ;
 uint8_t ADCnd ;
 uint8_t txBuffer[4];
 int16_t rxBuffer[4];
-float mode ;
+uint8_t mode ;
 
 /* USER CODE END PV */
 
@@ -162,7 +162,7 @@ int main(void)
   PID.Kd = 0;
   set_pos = 0;
   z = 0;
-  mode = 1;
+  mode = 0;
   arm_pid_init_f32(&PID, 0);
   /* USER CODE END 2 */
 
@@ -186,12 +186,12 @@ int main(void)
 /////////  MODE CHANGE  ////////////////////////////////////////////////////
 	  if(mode == 0){
 	  	  pos = posADC;
-		  set_pos = 1;
+		  set_pos = setADC;
 		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
   	  }
 	  else if(mode == 1){
 		  pos = posQEI*360/3072;
-		  set_pos = 2;
+		  set_pos = setADC;
 		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
 	  }
 	  else if(mode == 2){
