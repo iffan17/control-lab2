@@ -184,18 +184,18 @@ int main(void)
 	  x = 0;
 	  y = 0;
 /////////  MODE CHANGE  ////////////////////////////////////////////////////
-	  if(mode == 0){
+	  if(mode = 0){
 	  	  pos = posADC;
 		  set_pos = setADC;
 		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
   	  }
-	  else if(mode == 1){
+	  else if(mode = 1){
 		  pos = posQEI*360/3072;
 		  set_pos = setADC;
 		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
 	  }
-	  else if(mode == 2){
-		  Vfeedback = rxBuffer[2]*32676/360;
+	  else if(mode = 2){
+		  Vfeedback = rxBuffer[2];
 	  }
 /////////  PWM OC  ////////////////////////////////////////////////////////
 	  if(Vfeedback > 0){

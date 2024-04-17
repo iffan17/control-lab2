@@ -173,31 +173,31 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-/////////  ADC READ ////////////////////////////////////////////////////
+
+	  Degree = (QEIReadRaw/48)*360;
 	  for (uint16_t i =0; i < 100;i++)
 	  {
 		  x += ADC_RawRead[(i*2)];
 		  y += ADC_RawRead[(i*2)+1];
 	  }
-	  posADC = x*360/(409600); // 4096*10 to degree
-	  setADC = y*360/(409600);
+	  posADC = x/(100);
+	  setADC = y/(100);
 	  x = 0;
 	  y = 0;
-/////////  MODE CHANGE  ////////////////////////////////////////////////////
-	  if(mode == 0){
-	  	  pos = posADC;
-		  set_pos = setADC;
-		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
+	  if(mode = 0){
+	  	  pos = posADC*360/4096;
+		  set_pos = setADC*360/4096;
+		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/3072;
   	  }
-	  else if(mode == 1){
+	  else if(mode = 1){
 		  pos = posQEI*360/3072;
-		  set_pos = setADC;
-		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
+		  set_pos = setADC*360/4096;
+		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/3072;
 	  }
-	  else if(mode == 2){
-		  Vfeedback = rxBuffer[2]*32676/360;
+	  else if(mode = 2){
+		  Vfeedback = rxBuffer[2];
 	  }
-/////////  PWM OC  ////////////////////////////////////////////////////////
+/////////  PWM  ////////////////////////////////////////////////////////
 	  if(Vfeedback > 0){
 		  PWM1 = Vfeedback;
 		  PWM2 = 0;

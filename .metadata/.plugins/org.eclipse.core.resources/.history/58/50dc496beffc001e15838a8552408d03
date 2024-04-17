@@ -195,7 +195,7 @@ int main(void)
 		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
 	  }
 	  else if(mode == 2){
-		  Vfeedback = rxBuffer[2]*32676/360;
+		  Vfeedback = rxBuffer[2];
 	  }
 /////////  PWM OC  ////////////////////////////////////////////////////////
 	  if(Vfeedback > 0){
