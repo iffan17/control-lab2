@@ -154,7 +154,7 @@ int main(void)
 
 
 
-  PID.Kp =2;
+  PID.Kp =0.1;
   PID.Ki =0;
   PID.Kd = 0;
   set_pos = 0;
@@ -182,7 +182,7 @@ int main(void)
 	  y = 0;
 
 
-	  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676*2/3072;
+	  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/3072;
 	  if(Vfeedback > 0)
 	  {
 		  //z = 1;

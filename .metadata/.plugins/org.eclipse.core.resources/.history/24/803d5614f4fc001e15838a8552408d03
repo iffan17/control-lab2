@@ -154,7 +154,7 @@ int main(void)
 
 
 
-  PID.Kp =2;
+  PID.Kp =0.1;
   PID.Ki =0;
   PID.Kd = 0;
   set_pos = 0;

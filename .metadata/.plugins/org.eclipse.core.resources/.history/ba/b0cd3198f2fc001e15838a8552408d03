@@ -60,8 +60,7 @@ int16_t z;
 uint32_t testpwm;
 float inPos;
 int32_t setPos;
-int32_t pos;
-float set_pos;
+
 float PWM1;
 float PWM2;
 ////////////////////////////////////////////////////////////////
@@ -70,18 +69,22 @@ float QEIReadOld;
 float Degree;
 uint16_t ADC_RawRead[200];
 arm_pid_instance_f32 PID = {0};
-uint16_t posADC =0;
-uint16_t setADC ;
+float posADC =0;
+float setADC = 0;
+float posQEI = 0;
+float pos = 0;
+float set_pos = 0;
 float Vfeedback = 0;
 float Vneg = 0;
 ////////////////////////////////////////////////////////////////
-int16_t rxBuffer[4];
 uint8_t a;
 uint8_t b;
 uint16_t set_ADC = 10;
 uint8_t ADCst ;
 uint8_t ADCnd ;
 uint8_t txBuffer[4];
+int16_t rxBuffer[4];
+float mode ;
 
 /* USER CODE END PV */
 
@@ -154,11 +157,12 @@ int main(void)
 
 
 
-  PID.Kp =2;
+  PID.Kp =0.1;
   PID.Ki =0;
   PID.Kd = 0;
   set_pos = 0;
   z = 0;
+  mode = 1;
   arm_pid_init_f32(&PID, 0);
   /* USER CODE END 2 */
 
@@ -169,29 +173,36 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-	  Degree = (QEIReadRaw/48)*360;
+/////////  ADC READ ////////////////////////////////////////////////////
 	  for (uint16_t i =0; i < 100;i++)
 	  {
 		  x += ADC_RawRead[(i*2)];
 		  y += ADC_RawRead[(i*2)+1];
 	  }
-	  posADC = x/(100);
-	  setADC = y/(100);
+	  posADC = x*360/(409600); // 4096*10 to degree
+	  setADC = y*360/(409600);
 	  x = 0;
 	  y = 0;
-
-
-	  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676*2/3072;
-	  if(Vfeedback > 0)
-	  {
-		  //z = 1;
+/////////  MODE CHANGE  ////////////////////////////////////////////////////
+	  if(mode == 0){
+	  	  pos = posADC;
+		  set_pos = 1;
+		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
+  	  }
+	  else if(mode == 1){
+		  pos = posQEI*360/3072;
+		  set_pos = 2;
+		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
+	  }
+	  else if(mode == 2){
+		  Vfeedback = rxBuffer[2]*32676/360;
+	  }
+/////////  PWM OC  ////////////////////////////////////////////////////////
+	  if(Vfeedback > 0){
 		  PWM1 = Vfeedback;
 		  PWM2 = 0;
-
 	  }
-	  else if(Vfeedback < 0)
-	  {
+	  else if(Vfeedback < 0){
 		  PWM1 = 0;
 		  PWM2 = Vfeedback * -1;
 	  }
@@ -525,7 +536,7 @@ static void MX_TIM3_Init(void)
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 169;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 999;
+  htim3.Init.Period = 499;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
@@ -734,12 +745,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  //spd =  QEIReadRaw * 1000 / 250 * 8;
 	  if(QEIReadRaw > 32678)
 	  {
-		  pos -= (65536-QEIReadRaw);
+		  posQEI -= (65536-QEIReadRaw);
 		  z = 1;
 	  }
 	  else
 	  {
-		  pos += QEIReadRaw;
+		  posQEI += QEIReadRaw;
 		  z = 2;
 	  }
 	  QEIReadOld = QEIReadRaw;
@@ -747,27 +758,27 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 //////////////////////////////UART//////////////////////////
 
-//	  a = a+1;
-//	  a = a % 5;
-//	  if (a == 0)
-//	  {
-//	  	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-//	  }
-//
-//	  b = b+1;
-//	  b = b % 1000;
-//	  if (b == 0)
-//	  {
-//		  ADCst = (uint8_t)(set_ADC & 0xFF);
-//		  ADCnd = (uint8_t)((set_ADC >> 8) & 0xFF);
-//		  txBuffer[0] = 69;
-//		  txBuffer[1] = ADCst ;
-//		  txBuffer[2] = ADCnd ;
-//		  txBuffer[3] = '\n';
-//		  HAL_UART_Transmit(&hlpuart1, txBuffer, 4, 100);
-//		  HAL_UART_Receive(&hlpuart1, rxBuffer, 4, 100);
-//		  rxBuffer[2] = (rxBuffer[0]-69)/256;
-//	  }
+	  a = a+1;
+	  a = a % 5;
+	  if (a == 0)
+	  {
+	  	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+	  }
+
+	  b = b+1;
+	  b = b % 1000;
+	  if (b == 0)
+	  {
+		  ADCst = (uint8_t)(set_ADC & 0xFF);
+		  ADCnd = (uint8_t)((set_ADC >> 8) & 0xFF);
+		  txBuffer[0] = 69;
+		  txBuffer[1] = ADCst ;
+		  txBuffer[2] = ADCnd ;
+		  txBuffer[3] = '\n';
+		  HAL_UART_Transmit(&hlpuart1, txBuffer, 4, 100);
+		  HAL_UART_Receive(&hlpuart1, rxBuffer, 4, 100);
+		  rxBuffer[2] = (rxBuffer[0]-69)/256;
+	  }
 
 	  }
 }
