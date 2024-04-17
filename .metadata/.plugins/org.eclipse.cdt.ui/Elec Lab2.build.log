@@ -1,9 +1,9 @@
-21:58:54 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+16:55:23 **** Incremental Build of configuration Debug for project Elec Lab2 ****
 make -j16 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:133:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
-  133 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 200);
+../Core/Src/main.c:151:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  151 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 200);
       |                             ^~~~~~~~~~~
       |                             |
       |                             uint16_t * {aka short unsigned int *}
@@ -21,11 +21,11 @@ Finished building target: Elec Lab2.elf
 arm-none-eabi-size  Elec\ Lab2.elf 
 arm-none-eabi-objdump -h -S Elec\ Lab2.elf  > "Elec Lab2.list"
    text	   data	    bss	    dec	    hex	filename
-  30480	     20	   2788	  33288	   8208	Elec Lab2.elf
+  33292	     28	   2828	  36148	   8d34	Elec Lab2.elf
 Finished building: default.size.stdout
  
 Finished building: Elec Lab2.list
  
 
-21:58:56 Build Finished. 0 errors, 2 warnings. (took 1s.416ms)
+16:55:25 Build Finished. 0 errors, 2 warnings. (took 2s.430ms)
 

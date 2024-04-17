@@ -21,6 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stdio.h"
+#include "string.h"
 #include "arm_math.h"
 /* USER CODE END Includes */
 
@@ -52,6 +54,17 @@ TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim5;
 
 /* USER CODE BEGIN PV */
+uint32_t x;
+uint32_t y;
+int16_t z;
+uint32_t testpwm;
+float inPos;
+int32_t setPos;
+int32_t pos;
+float set_pos;
+float PWM1;
+float PWM2;
+////////////////////////////////////////////////////////////////
 float QEIReadRaw;
 float QEIReadOld;
 float Degree;
@@ -61,6 +74,19 @@ float position =0;
 float setposition =0;
 float Vfeedback = 0;
 float Vneg = 0;
+
+int16_t RxData[3];
+uint16_t TxData[10];
+uint16_t ADCValue;
+uint8_t a;
+
+uint8_t payloadData[] = {0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC};
+uint8_t payloadLength = sizeof(payloadData);
+uint16_t Buffer[20];
+
+#define START_BYTE 69
+#define MAX_DATA_SIZE 64
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -76,20 +102,12 @@ static void MX_TIM2_Init(void);
 static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 float PlantSimulation(float VIn) ;
+void sendUartWithHeader(UART_HandleTypeDef *huart, uint8_t *data, uint8_t dataLength);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint32_t x;
-uint32_t y;
-int16_t z;
-uint32_t testpwm;
-float inPos;
-float setPos;
-float pos;
-float set_pos;
-float PWM1;
-float PWM2;
+
 /* USER CODE END 0 */
 
 /**
@@ -138,6 +156,8 @@ int main(void)
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
   HAL_TIM_Encoder_Start(&htim5,TIM_CHANNEL_ALL);
 
+
+
   PID.Kp =0.1;
   PID.Ki =0;
   PID.Kd = 0;
@@ -165,12 +185,8 @@ int main(void)
 	  x = 0;
 	  y = 0;
 
-	  //QEIReadRaw = __HAL_TIM_GET_COUNTER(&htim5);
-
 
 	  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/3072;
-	  //__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 0);
-	  //__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, 30000);
 	  if(Vfeedback > 0)
 	  {
 		  //z = 1;
@@ -180,9 +196,6 @@ int main(void)
 	  }
 	  else if(Vfeedback < 0)
 	  {
-		  //z = -1;
-		  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, RESET);
-//		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, SET);
 		  PWM1 = 0;
 		  PWM2 = Vfeedback * -1;
 	  }
@@ -192,6 +205,8 @@ int main(void)
 	  }
 	  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, PWM1);
 	  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, PWM2);
+
+	  sendUartWithHeader(&hlpuart1, payloadData, payloadLength);
 
   }
   /* USER CODE END 3 */
@@ -735,10 +750,46 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  QEIReadOld = QEIReadRaw;
 	  __HAL_TIM_SET_COUNTER(&htim5, 0);
 
-
-
-  }
+//	  a = a+1;
+//	  a = a % 1000;
+//	  if (a == 0)
+//	  {
+//	  	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+//	  }
+	  }
 }
+
+
+//void UARTDMAConfig(){
+//	HAL_UART_Receive_DMA(&hlpuart1, RxData, 10);
+//}
+
+
+
+
+
+void sendUartWithHeader(UART_HandleTypeDef *huart, uint8_t *data, uint8_t dataLength) {
+    uint8_t txBuffer[MAX_DATA_SIZE + 3]; // Buffer for header + data
+    uint8_t bufferIndex = 0;
+
+    // Add start byte
+    txBuffer[bufferIndex++] = START_BYTE;
+
+    // Add data length
+    txBuffer[bufferIndex++] = dataLength;
+
+    // Add data
+    for (uint8_t i = 0; i < dataLength; i++) {
+        txBuffer[bufferIndex++] = data[i];
+    }
+
+    // Send the buffer over UART
+    HAL_UART_Transmit(huart, txBuffer, bufferIndex,10);
+    for (int i = 0;i<= sizeof(txBuffer)/sizeof(txBuffer[0]);i++){
+    	Buffer[i] = txBuffer[i];
+    }
+}
+
 /* USER CODE END 4 */
 
 /**
