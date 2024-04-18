@@ -61,6 +61,7 @@ uint32_t testpwm;
 float inPos;
 int32_t setPos;
 int32_t pos;
+int32_t posQEI;
 float set_pos;
 float PWM1;
 float PWM2;
@@ -71,9 +72,10 @@ float Degree;
 uint16_t ADC_RawRead[200];
 arm_pid_instance_f32 PID = {0};
 uint16_t posADC =0;
-uint16_t setADC ;
+uint16_t setADC =0;
 float Vfeedback = 0;
 float Vneg = 0;
+uint16_t mode = 0;
 ////////////////////////////////////////////////////////////////
 int16_t rxBuffer[4];
 uint8_t a;
@@ -176,13 +178,32 @@ int main(void)
 		  x += ADC_RawRead[(i*2)];
 		  y += ADC_RawRead[(i*2)+1];
 	  }
-	  posADC = x/(100);
-	  setADC = y/(100);
+	  posADC = x/100;
+	  setADC = y/100;
 	  x = 0;
 	  y = 0;
 
+	  if(mode = 0){
+		  pos = posADC*360/4096;
+		  set_pos = setADC*360/4096;
+	  }
+	  else if(mode = 1){
+		  pos = posQEI*360/3072;
+		  set_pos = setADC*360/4096;
+
+	  }
 
 	  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676*2/3072;
+
+	  if(Vfeedback > 32676) //ensure smooth speed , maximum speed
+	  {
+		  Vfeedback = 32676;
+	  }
+	  else if(Vfeedback < -32676)
+	  {
+		  Vfeedback = -32676;
+	  }
+
 	  if(Vfeedback > 0)
 	  {
 		  //z = 1;
@@ -734,12 +755,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  //spd =  QEIReadRaw * 1000 / 250 * 8;
 	  if(QEIReadRaw > 32678)
 	  {
-		  pos -= (65536-QEIReadRaw);
+		  posQEI -= (65536-QEIReadRaw);
 		  z = 1;
 	  }
 	  else
 	  {
-		  pos += QEIReadRaw;
+		  posQEI += QEIReadRaw;
 		  z = 2;
 	  }
 	  QEIReadOld = QEIReadRaw;
