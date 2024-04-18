@@ -874,16 +874,26 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) // Input reading
 //////////////////////////////UART//////////////////////////
   if(htim == &htim8)
   {
-	  ADCst = (uint8_t)(ADC_RawRead[1] & 0xFF);
-	  ADCnd = (uint8_t)((ADC_RawRead[1] >> 8) & 0xFF);
-	  txBuffer[0] = 69;
-	  txBuffer[1] = ADCst ;
-	  txBuffer[2] = ADCnd ;
-	  txBuffer[3] = '\n';
-	  HAL_UART_Transmit(&hlpuart1, txBuffer, 4, 100);
-	  HAL_UART_Receive(&hlpuart1, rxBuffer, 4, 100);
-	  rxBuffer[2] = (rxBuffer[0]-69)/256;
 
+
+	  a = (a+1)%5; // counter 200hz
+	  b = (b+1)%1000; // 1 hz
+	  if (a == 0)
+	  {
+		  ADCst = (uint8_t)(ADC_RawRead[1] & 0xFF);
+		  ADCnd = (uint8_t)((ADC_RawRead[1] >> 8) & 0xFF);
+		  txBuffer[0] = 69;
+		  txBuffer[1] = ADCst ;
+		  txBuffer[2] = ADCnd ;
+		  txBuffer[3] = '\n';
+		  HAL_UART_Transmit(&hlpuart1, txBuffer, 4, 100);
+		  HAL_UART_Receive(&hlpuart1, rxBuffer, 4, 100);
+		  rxBuffer[2] = (rxBuffer[0]-69)/256;
+	  }
+	  if (b == 0)
+	  {
+	  //	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+	  }
 
   }
 }

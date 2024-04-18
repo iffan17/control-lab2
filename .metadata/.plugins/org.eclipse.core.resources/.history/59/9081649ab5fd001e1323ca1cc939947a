@@ -52,11 +52,10 @@ TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim5;
-TIM_HandleTypeDef htim8;
 
 /* USER CODE BEGIN PV */
-int16_t x = 0;
-int16_t y;
+int64_t x = 0;
+uint64_t y;
 int16_t z;
 uint32_t testpwm;
 float inPos;
@@ -70,11 +69,11 @@ float PWM2;
 float QEIReadRaw;
 float QEIReadOld;
 float Degree;
-uint16_t ADC_RawRead[2];
+uint32_t ADC_RawRead[2];
 arm_pid_instance_f32 PID = {0};
-int16_t posADC =0;
-int16_t setADC =0;
-int16_t prev_pos = 0;
+uint32_t posADC =0;
+uint32_t setADC =0;
+uint32_t prev_pos = 0;
 float Vfeedback = 0;
 float Vneg = 0;
 uint16_t mode = 1;
@@ -100,7 +99,6 @@ static void MX_TIM4_Init(void);
 static void MX_TIM5_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM1_Init(void);
-static void MX_TIM8_Init(void);
 /* USER CODE BEGIN PFP */
 
 void DriveF(void);
@@ -151,12 +149,10 @@ int main(void)
   MX_TIM5_Init();
   MX_TIM2_Init();
   MX_TIM1_Init();
-  MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
   HAL_TIM_Base_Start(&htim3);
   HAL_TIM_Base_Start(&htim4);
-  HAL_TIM_Base_Start(&htim8);
   HAL_TIM_Base_Start_IT(&htim2);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
@@ -210,14 +206,13 @@ int main(void)
 		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
 	  }
 	  else if(mode == 1){
-		  pos = x*360/3072;
+		  pos = posQEI*360/3072;
 		  set_pos = setADC*360/4096;
 		  PID.Kp = 2;
 		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
 	  }
 	  else if(mode == 2){
 		  Vfeedback = rxBuffer[2];
-		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 	  }
 
 ////////////// SPEED LIMIT //////////////////////////////////////////////////
@@ -714,53 +709,6 @@ static void MX_TIM5_Init(void)
 }
 
 /**
-  * @brief TIM8 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM8_Init(void)
-{
-
-  /* USER CODE BEGIN TIM8_Init 0 */
-
-  /* USER CODE END TIM8_Init 0 */
-
-  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-
-  /* USER CODE BEGIN TIM8_Init 1 */
-
-  /* USER CODE END TIM8_Init 1 */
-  htim8.Instance = TIM8;
-  htim8.Init.Prescaler = 169;
-  htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim8.Init.Period = 4999;
-  htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim8.Init.RepetitionCounter = 0;
-  htim8.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim8) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim8, &sClockSourceConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim8, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM8_Init 2 */
-
-  /* USER CODE END TIM8_Init 2 */
-
-}
-
-/**
   * Enable DMA controller clock
   */
 static void MX_DMA_Init(void)
@@ -857,33 +805,40 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) // Input reading
 		  z = 2;
 	  }
 	  __HAL_TIM_SET_COUNTER(&htim5, 0);
-
-	  posADC = ADC_RawRead[0];
-	  if(posADC-prev_pos < -2048){ //forward callback
-		  x += (4096+(posADC-prev_pos));
-	  	  }
-	  	  else if(posADC-prev_pos > 2048){ //reverse callback
-	  		  x -= (4096-(posADC-prev_pos));
-	  	  }
-	  	  else{
-	  		  x += posADC-prev_pos;
-	  	  }
-	  y = posADC-prev_pos;
-	  	  prev_pos = posADC;
   }
 //////////////////////////////UART//////////////////////////
-  if(htim == &htim8)
+  if(htim == &htim3)
   {
-	  ADCst = (uint8_t)(ADC_RawRead[1] & 0xFF);
-	  ADCnd = (uint8_t)((ADC_RawRead[1] >> 8) & 0xFF);
-	  txBuffer[0] = 69;
-	  txBuffer[1] = ADCst ;
-	  txBuffer[2] = ADCnd ;
-	  txBuffer[3] = '\n';
-	  HAL_UART_Transmit(&hlpuart1, txBuffer, 4, 100);
-	  HAL_UART_Receive(&hlpuart1, rxBuffer, 4, 100);
-	  rxBuffer[2] = (rxBuffer[0]-69)/256;
+	  posADC = ADC_RawRead;
+	  if(posADC-prev_pos < -2048){ //forward callback
+		  x += (4096+(posADC-prev_pos));
+	  }
+	  else if(posADC-prev_pos > 2048){ //reverse callback
+		  x -= (4096-(posADC-prev_pos));
+	  }
+	  else{
+		  x += posADC-prev_pos;
+	  }
+	  prev_pos = posADC;
 
+//	  a = (a+1)%5; // counter 200hz
+//	  b = (b+1)%1000; // 1 hz
+//	  if (a == 0)
+//	  {
+//		  ADCst = (uint8_t)(set_ADC & 0xFF);
+//		  ADCnd = (uint8_t)((set_ADC >> 8) & 0xFF);
+//		  txBuffer[0] = 69;
+//		  txBuffer[1] = ADCst ;
+//		  txBuffer[2] = ADCnd ;
+//		  txBuffer[3] = '\n';
+//		  HAL_UART_Transmit(&hlpuart1, txBuffer, 4, 100);
+//		  HAL_UART_Receive(&hlpuart1, rxBuffer, 4, 100);
+//		  rxBuffer[2] = (rxBuffer[0]-69)/256;
+//	  }
+//	  if (b == 0)
+//	  {
+//	  	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+//	  }
 
   }
 }
