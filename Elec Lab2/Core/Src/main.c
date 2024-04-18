@@ -54,28 +54,29 @@ TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim5;
 
 /* USER CODE BEGIN PV */
-uint32_t x;
-uint32_t y;
+int64_t x = 0;
+uint64_t y;
 int16_t z;
 uint32_t testpwm;
 float inPos;
 int32_t setPos;
-int32_t pos;
-int32_t posQEI;
+float pos;
 float set_pos;
+int32_t posQEI;
 float PWM1;
 float PWM2;
 ////////////////////////////////////////////////////////////////
 float QEIReadRaw;
 float QEIReadOld;
 float Degree;
-uint16_t ADC_RawRead[200];
+uint32_t ADC_RawRead[2];
 arm_pid_instance_f32 PID = {0};
-uint16_t posADC =0;
-uint16_t setADC =0;
+uint32_t posADC =0;
+uint32_t setADC =0;
+uint32_t prev_pos = 0;
 float Vfeedback = 0;
 float Vneg = 0;
-uint16_t mode = 0;
+uint16_t mode = 1;
 ////////////////////////////////////////////////////////////////
 int16_t rxBuffer[4];
 uint8_t a;
@@ -99,7 +100,10 @@ static void MX_TIM5_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
-float PlantSimulation(float VIn) ;
+
+void DriveF(void);
+void DriveC(void);
+
 void sendUartWithHeader(UART_HandleTypeDef *huart, uint8_t *data, uint8_t dataLength);
 /* USER CODE END PFP */
 
@@ -146,12 +150,14 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 200);
+  HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
   HAL_TIM_Base_Start(&htim3);
   HAL_TIM_Base_Start(&htim4);
   HAL_TIM_Base_Start_IT(&htim2);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
   HAL_TIM_Encoder_Start(&htim5,TIM_CHANNEL_ALL);
 
 
@@ -172,47 +178,57 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  Degree = (QEIReadRaw/48)*360;
-	  for (uint16_t i =0; i < 100;i++)
-	  {
-		  x += ADC_RawRead[(i*2)];
-		  y += ADC_RawRead[(i*2)+1];
-	  }
-	  posADC = x/100;
-	  setADC = y/100;
-	  x = 0;
-	  y = 0;
 
-	  if(mode = 0){
+//	  for (uint16_t i = 0; i < 100;i++)
+//	  {
+//		  x += ADC_RawRead[(i*2)];
+//		  y += ADC_RawRead[(i*2)+1];
+//	  }
+//
+//
+	  setADC = ADC_RawRead[1];
+//	  x = 0;
+//	  y = 0;
+//	  if(arm_abs_f32(ADC_RawRead, pDst, blockSize)(ADC_RawRead[0] - prev_pos) >= 2048){
+//	  if(arm_a(ADC_RawRead, pDst, blockSize)(ADC_RawRead[0] - prev_pos) >= 2048){
+//		  posADC = posADC + 4096 + (ADC_RawRead[0] - prev_pos);
+//	  }else{
+//		  posADC += ADC_RawRead[0] - prev_pos;
+//	  }
+
+	 // prev_pos = posADC;
+
+
+	  if(mode == 0){
 		  pos = posADC*360/4096;
 		  set_pos = setADC*360/4096;
+		  PID.Kp = 2;
+		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
 	  }
-	  else if(mode = 1){
+	  else if(mode == 1){
 		  pos = posQEI*360/3072;
 		  set_pos = setADC*360/4096;
-
+		  PID.Kp = 2;
+		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
+	  }
+	  else if(mode == 2){
+		  Vfeedback = rxBuffer[2];
 	  }
 
-	  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676*2/3072;
-
-	  if(Vfeedback > 32676) //ensure smooth speed , maximum speed
-	  {
+////////////// SPEED LIMIT //////////////////////////////////////////////////
+	  //ensure smooth speed , maximum speed
+	  if(Vfeedback > 32676){
 		  Vfeedback = 32676;
 	  }
-	  else if(Vfeedback < -32676)
-	  {
+	  else if(Vfeedback < -32676){
 		  Vfeedback = -32676;
 	  }
-
-	  if(Vfeedback > 0)
-	  {
-		  //z = 1;
+////////////// PWM //////////////////////////////////////////////////////////
+	  if(Vfeedback > 0){
 		  PWM1 = Vfeedback;
 		  PWM2 = 0;
-
 	  }
-	  else if(Vfeedback < 0)
-	  {
+	  else if(Vfeedback < 0){
 		  PWM1 = 0;
 		  PWM2 = Vfeedback * -1;
 	  }
@@ -220,8 +236,13 @@ int main(void)
 		  PWM1 = 0;
 		  PWM2 = 0;
 	  }
-	  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, PWM1);
-	  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, PWM2);
+////////////// MOTOR1 or MOTOR2 /////////////////////////////////////////////
+	  if(mode == 1){
+		  DriveF();
+	  }
+	  else{
+		  DriveC();
+	  }
 
 
   }
@@ -328,7 +349,7 @@ static void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_12CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_640CYCLES_5;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
@@ -339,7 +360,7 @@ static void MX_ADC1_Init(void)
 
   /** Configure Regular Channel
   */
-  sConfig.Channel = ADC_CHANNEL_2;
+  sConfig.Channel = ADC_CHANNEL_5;
   sConfig.Rank = ADC_REGULAR_RANK_2;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
@@ -453,6 +474,10 @@ static void MX_TIM1_Init(void)
   sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
   sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
   }
@@ -622,6 +647,11 @@ static void MX_TIM4_Init(void)
   {
     Error_Handler();
   }
+  sConfigOC.Pulse = 0;
+  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
   /* USER CODE BEGIN TIM4_Init 2 */
 
   /* USER CODE END TIM4_Init 2 */
@@ -747,7 +777,18 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{ //B1 button
+    if (GPIO_Pin == GPIO_PIN_13) {
+        // Blue button interrupt occurred
+        // Your code here
+    	mode = mode + 1;
+    	mode = mode % 3;
+    }
+}
+
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) // Input reading
 {
   if (htim == &htim2 )
   {
@@ -763,21 +804,26 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		  posQEI += QEIReadRaw;
 		  z = 2;
 	  }
-	  QEIReadOld = QEIReadRaw;
 	  __HAL_TIM_SET_COUNTER(&htim5, 0);
-
+  }
 //////////////////////////////UART//////////////////////////
+  if(htim == &htim3)
+  {
+	  posADC = ADC_RawRead;
+	  if(posADC-prev_pos < -2048){ //forward callback
+		  x += (4096+(posADC-prev_pos));
+	  }
+	  else if(posADC-prev_pos > 2048){ //reverse callback
+		  x -= (4096-(posADC-prev_pos));
+	  }
+	  else{
+		  x += posADC-prev_pos;
+	  }
+	  prev_pos = posADC;
 
-//	  a = a+1;
-//	  a = a % 5;
+//	  a = (a+1)%5; // counter 200hz
+//	  b = (b+1)%1000; // 1 hz
 //	  if (a == 0)
-//	  {
-//	  	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-//	  }
-//
-//	  b = b+1;
-//	  b = b % 1000;
-//	  if (b == 0)
 //	  {
 //		  ADCst = (uint8_t)(set_ADC & 0xFF);
 //		  ADCnd = (uint8_t)((set_ADC >> 8) & 0xFF);
@@ -789,11 +835,28 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //		  HAL_UART_Receive(&hlpuart1, rxBuffer, 4, 100);
 //		  rxBuffer[2] = (rxBuffer[0]-69)/256;
 //	  }
+//	  if (b == 0)
+//	  {
+//	  	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+//	  }
 
-	  }
+  }
 }
 
+void DriveF(void)
+{
+	  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, 0);
+	  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
+	  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, PWM1);
+	  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, PWM2);
 
+}
+void DriveC(void){
+	  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 0);
+	  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
+	  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, PWM1);
+	  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, PWM2);
+}
 /* USER CODE END 4 */
 
 /**
