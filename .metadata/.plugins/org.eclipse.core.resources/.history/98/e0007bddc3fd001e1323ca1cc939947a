@@ -803,8 +803,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) // Input reading
 		  txBuffer[1] = ADCst ;
 		  txBuffer[2] = ADCnd ;
 		  txBuffer[3] = '\n';
-//		  HAL_UART_Transmit(&hlpuart1, txBuffer, 4, 10);
-//		  HAL_UART_Receive(&hlpuart1, rxBuffer, 4, 10);
+		  HAL_UART_Transmit(&hlpuart1, txBuffer, 4, 10);
+		  HAL_UART_Receive(&hlpuart1, rxBuffer, 4, 10);
 		  rxBuffer[2] = (rxBuffer[0]-69)/256;
 	  }
 	  QEIReadRaw = __HAL_TIM_GET_COUNTER(&htim5);

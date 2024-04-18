@@ -201,13 +201,13 @@ int main(void)
 
 
 	  if(mode == 0){
-		  pos = x*360/4096;
+		  pos = posADC*360/4096;
 		  set_pos = setADC*360/4096;
 		  PID.Kp = 2;
 		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
 	  }
 	  else if(mode == 1){
-		  pos = posQEI*360/3072;
+		  pos = x*360/3072;
 		  set_pos = setADC*360/4096;
 		  PID.Kp = 2;
 		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
@@ -794,19 +794,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) // Input reading
 {
   if (htim == &htim2 )
   {
-
-	  if (mode ==2) {
-		  a = 5;
-		  ADCst = (uint8_t)(ADC_RawRead[1] & 0xFF);
-		  ADCnd = (uint8_t)((ADC_RawRead[1] >> 8) & 0xFF);
-		  txBuffer[0] = 69;
-		  txBuffer[1] = ADCst ;
-		  txBuffer[2] = ADCnd ;
-		  txBuffer[3] = '\n';
-//		  HAL_UART_Transmit(&hlpuart1, txBuffer, 4, 10);
-//		  HAL_UART_Receive(&hlpuart1, rxBuffer, 4, 10);
-		  rxBuffer[2] = (rxBuffer[0]-69)/256;
-	  }
 	  QEIReadRaw = __HAL_TIM_GET_COUNTER(&htim5);
 	  //spd =  QEIReadRaw * 1000 / 250 * 8;
 	  if(QEIReadRaw > 32678)
@@ -833,7 +820,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) // Input reading
 	  	  }
 	  y = posADC-prev_pos;
 	  	  prev_pos = posADC;
-
+	  a = 5;
+	  ADCst = (uint8_t)(ADC_RawRead[1] & 0xFF);
+	  ADCnd = (uint8_t)((ADC_RawRead[1] >> 8) & 0xFF);
+	  txBuffer[0] = 69;
+	  txBuffer[1] = ADCst ;
+	  txBuffer[2] = ADCnd ;
+	  txBuffer[3] = '\n';
+	  HAL_UART_Transmit(&hlpuart1, txBuffer, 4, 100);
+	  HAL_UART_Receive(&hlpuart1, rxBuffer, 4, 100);
+	  rxBuffer[2] = (rxBuffer[0]-69)/256;
   }
 //////////////////////////////UART//////////////////////////
   if(htim == &htim3)
