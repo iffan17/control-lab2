@@ -205,16 +205,23 @@ int main(void)
 		  set_pos = setADC*360/4096;
 		  PID.Kp = 2;
 		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
+		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, SET);
 	  }
 	  else if(mode == 1){
 		  pos = posQEI*360/3072;
 		  set_pos = setADC*360/4096;
 		  PID.Kp = 2;
 		  Vfeedback = (arm_pid_f32(&PID, set_pos - pos))*32676/360;
+		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, RESET);
 	  }
 	  else if(mode == 2){
-		  Vfeedback = rxBuffer[2];
-		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		  Vfeedback = rxBuffer[2]*32676/100;
+		  static uint16_t timestamp;
+		  if(HAL_GetTick()>=timestamp){
+			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+			  timestamp = HAL_GetTick()+500;
+			  b += 1;
+		  }
 	  }
 
 ////////////// SPEED LIMIT //////////////////////////////////////////////////
@@ -794,19 +801,26 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) // Input reading
 {
   if (htim == &htim2 )
   {
-
+	  a +=1;
+	  a = a%5;
 	  if (mode ==2) {
-		  a = 5;
-		  ADCst = (uint8_t)(ADC_RawRead[1] & 0xFF);
-		  ADCnd = (uint8_t)((ADC_RawRead[1] >> 8) & 0xFF);
-		  txBuffer[0] = 69;
-		  txBuffer[1] = ADCst ;
-		  txBuffer[2] = ADCnd ;
-		  txBuffer[3] = '\n';
-//		  HAL_UART_Transmit(&hlpuart1, txBuffer, 4, 10);
-//		  HAL_UART_Receive(&hlpuart1, rxBuffer, 4, 10);
-		  rxBuffer[2] = (rxBuffer[0]-69)/256;
+		  if(a == 0 ){
+			  ADCst = (uint8_t)(ADC_RawRead[0] & 0xFF);
+			  ADCnd = (uint8_t)((ADC_RawRead[0] >> 8) & 0xFF);
+
+			  txBuffer[0] = 69;
+			  txBuffer[1] = ADCst;
+			  txBuffer[2] = ADCnd;
+			  txBuffer[3] = '\n';
+			  HAL_UART_Transmit_IT(&hlpuart1, txBuffer ,4);
+			  HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 2);
+			  rxBuffer[2] = (rxBuffer[0])/256;
+
+		  }
+
+
 	  }
+	  else if(mode == 1){
 	  QEIReadRaw = __HAL_TIM_GET_COUNTER(&htim5);
 	  //spd =  QEIReadRaw * 1000 / 250 * 8;
 	  if(QEIReadRaw > 32678)
@@ -820,7 +834,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) // Input reading
 		  z = 2;
 	  }
 	  __HAL_TIM_SET_COUNTER(&htim5, 0);
-
+	  }
+	  else if(mode == 0 || mode == 2){
 	  posADC = ADC_RawRead[0];
 	  if(posADC-prev_pos < -2048){ //forward callback
 		  x += (4096+(posADC-prev_pos));
@@ -833,7 +848,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) // Input reading
 	  	  }
 	  y = posADC-prev_pos;
 	  	  prev_pos = posADC;
-
+	  }
   }
 //////////////////////////////UART//////////////////////////
   if(htim == &htim3)
