@@ -215,13 +215,13 @@ int main(void)
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, RESET);
 	  }
 	  else if(mode == 2){
-		  Vfeedback = (rxBuffer[1]*32676/4096)*(rxBuffer[2]-2);
-		  static uint16_t timestamp;
-		  if(HAL_GetTick()>=timestamp){
-			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-			  timestamp = HAL_GetTick()+500;
-			  b += 1;
-		  }
+		  Vfeedback = (rxBuffer[1]*32676/12)*(rxBuffer[2]-2);
+//		  static uint16_t timestamp;
+//		  if(HAL_GetTick()>=timestamp){
+//			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+//			  timestamp = HAL_GetTick()+500;
+//			  b += 1;
+//		  }
 	  }
 
 ////////////// SPEED LIMIT //////////////////////////////////////////////////
@@ -805,8 +805,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) // Input reading
 	  a = a%5;
 	  if (mode ==2 && a == 0)
 	  {
-		  ADCst = (uint8_t)(32768 + x*360/4096 & 0xFF);
-		  ADCnd = (uint8_t)((32768 + x*360/4096 >> 8) & 0xFF);
+		  ADCst = (uint8_t)(32768 + x & 0xFF);
+		  ADCnd = (uint8_t)((32768 + x >> 8) & 0xFF);
 
 		  txBuffer[0] = 69;
 		  txBuffer[1] = ADCst;
@@ -839,15 +839,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) // Input reading
 		  posADC = ADC_RawRead[0];
 		  if(posADC-prev_pos < -2048)
 		  { //forward callback
-			  x += (4096+(posADC-prev_pos));
+//			  x += (4096+(posADC-prev_pos));
+			  x += (4096+(posADC-prev_pos))*360/4096 ;
 		  }
 		  else if(posADC-prev_pos > 2048){ //reverse callback
-			  x -= (4096-(posADC-prev_pos));
+			  x -= (4096-(posADC-prev_pos))*360/4096;
 		  }
 		  else{
-			  x += posADC-prev_pos;
+			  x += (posADC-prev_pos)*360/4096;
 		  }
-		  y = posADC-prev_pos;
+
 		  prev_pos = posADC;
 	  }
   }
