@@ -215,7 +215,7 @@ int main(void)
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, RESET);
 	  }
 	  else if(mode == 2){
-		  Vfeedback = (rxBuffer[1]*32676/(4096))*(rxBuffer[2]-2);
+		  Vfeedback = (rxBuffer[1]*32676/12)*(rxBuffer[2]-2);
 //		  static uint16_t timestamp;
 //		  if(HAL_GetTick()>=timestamp){
 //			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
@@ -226,11 +226,11 @@ int main(void)
 
 ////////////// SPEED LIMIT //////////////////////////////////////////////////
 	  //ensure smooth speed , maximum speed
-	  if(Vfeedback > 32676/20){
-		  Vfeedback = 32676/20;
+	  if(Vfeedback > 32676){
+		  Vfeedback = 32676;
 	  }
-	  else if(Vfeedback < -32676/20){
-		  Vfeedback = -32676/20;
+	  else if(Vfeedback < -32676){
+		  Vfeedback = -32676;
 	  }
 ////////////// PWM //////////////////////////////////////////////////////////
 	  if(Vfeedback > 0){
@@ -805,8 +805,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) // Input reading
 	  a = a%5;
 	  if (mode ==2 && a == 0)
 	  {
-		  ADCst = (uint8_t)(ADC_RawRead[0] & 0xFF);
-		  ADCnd = (uint8_t)((ADC_RawRead[0] >> 8) & 0xFF);
+		  ADCst = (uint8_t)(32768 + x & 0xFF);
+		  ADCnd = (uint8_t)((32768 + x >> 8) & 0xFF);
 
 		  txBuffer[0] = 69;
 		  txBuffer[1] = ADCst;

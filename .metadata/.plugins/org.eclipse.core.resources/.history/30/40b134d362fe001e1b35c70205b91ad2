@@ -215,7 +215,7 @@ int main(void)
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, RESET);
 	  }
 	  else if(mode == 2){
-		  Vfeedback = (rxBuffer[1]*32676/(4096))*(rxBuffer[2]-2);
+		  Vfeedback = (rxBuffer[1]*32676/(50*12))*(rxBuffer[2]-2);
 //		  static uint16_t timestamp;
 //		  if(HAL_GetTick()>=timestamp){
 //			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
