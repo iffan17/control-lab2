@@ -76,7 +76,7 @@ int16_t setADC =0;
 int16_t prev_pos = 0;
 float Vfeedback = 0;
 float Vneg = 0;
-uint16_t mode = 1;
+uint16_t mode = 2;
 ////////////////////////////////////////////////////////////////
 int16_t rxBuffer[4];
 uint8_t a;
@@ -215,7 +215,7 @@ int main(void)
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, RESET);
 	  }
 	  else if(mode == 2){
-		  Vfeedback = rxBuffer[2]*32676/100;
+		  Vfeedback = (rxBuffer[1]*32676/4096)*(rxBuffer[2]-2);
 		  static uint16_t timestamp;
 		  if(HAL_GetTick()>=timestamp){
 			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
@@ -226,11 +226,11 @@ int main(void)
 
 ////////////// SPEED LIMIT //////////////////////////////////////////////////
 	  //ensure smooth speed , maximum speed
-	  if(Vfeedback > 32676){
-		  Vfeedback = 32676;
+	  if(Vfeedback > 32676/5){
+		  Vfeedback = 32676/5;
 	  }
-	  else if(Vfeedback < -32676){
-		  Vfeedback = -32676;
+	  else if(Vfeedback < -32676/5){
+		  Vfeedback = -32676/5;
 	  }
 ////////////// PWM //////////////////////////////////////////////////////////
 	  if(Vfeedback > 0){
@@ -803,51 +803,52 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) // Input reading
   {
 	  a +=1;
 	  a = a%5;
-	  if (mode ==2) {
-		  if(a == 0 ){
-			  ADCst = (uint8_t)(ADC_RawRead[0] & 0xFF);
-			  ADCnd = (uint8_t)((ADC_RawRead[0] >> 8) & 0xFF);
+	  if (mode ==2 && a == 0)
+	  {
+		  ADCst = (uint8_t)(32768 + x*360/4096 & 0xFF);
+		  ADCnd = (uint8_t)((32768 + x*360/4096 >> 8) & 0xFF);
 
-			  txBuffer[0] = 69;
-			  txBuffer[1] = ADCst;
-			  txBuffer[2] = ADCnd;
-			  txBuffer[3] = '\n';
-			  HAL_UART_Transmit_IT(&hlpuart1, txBuffer ,4);
-			  HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 2);
-			  rxBuffer[2] = (rxBuffer[0])/256;
+		  txBuffer[0] = 69;
+		  txBuffer[1] = ADCst;
+		  txBuffer[2] = ADCnd;
+		  txBuffer[3] = '\n';
+		  HAL_UART_Transmit_IT(&hlpuart1, txBuffer , 5);
+		  HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
 
+		  //rxBuffer[2] = (rxBuffer[0])/256;
+	  }
+	  else if(mode == 1)
+	  {
+		  QEIReadRaw = __HAL_TIM_GET_COUNTER(&htim5);
+		  //spd =  QEIReadRaw * 1000 / 250 * 8;
+		  if(QEIReadRaw > 32678)
+		  {
+			  posQEI -= (65536-QEIReadRaw);
+			  z = 1;
 		  }
+		  else
+		  {
+			  posQEI += QEIReadRaw;
+			  z = 2;
+		  }
+		  __HAL_TIM_SET_COUNTER(&htim5, 0);
+	  }
 
-
-	  }
-	  else if(mode == 1){
-	  QEIReadRaw = __HAL_TIM_GET_COUNTER(&htim5);
-	  //spd =  QEIReadRaw * 1000 / 250 * 8;
-	  if(QEIReadRaw > 32678)
+	  else if(mode == 0 || mode == 2)
 	  {
-		  posQEI -= (65536-QEIReadRaw);
-		  z = 1;
-	  }
-	  else
-	  {
-		  posQEI += QEIReadRaw;
-		  z = 2;
-	  }
-	  __HAL_TIM_SET_COUNTER(&htim5, 0);
-	  }
-	  else if(mode == 0 || mode == 2){
-	  posADC = ADC_RawRead[0];
-	  if(posADC-prev_pos < -2048){ //forward callback
-		  x += (4096+(posADC-prev_pos));
-	  	  }
-	  	  else if(posADC-prev_pos > 2048){ //reverse callback
-	  		  x -= (4096-(posADC-prev_pos));
-	  	  }
-	  	  else{
-	  		  x += posADC-prev_pos;
-	  	  }
-	  y = posADC-prev_pos;
-	  	  prev_pos = posADC;
+		  posADC = ADC_RawRead[0];
+		  if(posADC-prev_pos < -2048)
+		  { //forward callback
+			  x += (4096+(posADC-prev_pos));
+		  }
+		  else if(posADC-prev_pos > 2048){ //reverse callback
+			  x -= (4096-(posADC-prev_pos));
+		  }
+		  else{
+			  x += posADC-prev_pos;
+		  }
+		  y = posADC-prev_pos;
+		  prev_pos = posADC;
 	  }
   }
 //////////////////////////////UART//////////////////////////

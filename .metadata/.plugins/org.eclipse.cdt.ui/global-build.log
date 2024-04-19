@@ -11185,3 +11185,730 @@ Finished building: default.size.stdout
  
 Finished building: Elec Lab2.list
  
+12:20:12 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-size  Elec\ Lab2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  38500	     24	   2408	  40932	   9fe4	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+12:24:08 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-size  Elec\ Lab2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  38500	     24	   2408	  40932	   9fe4	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+12:26:39 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-size  Elec\ Lab2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  38500	     24	   2408	  40932	   9fe4	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+12:46:15 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:816:58: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                           HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 2);
+      |                                                          ^~~~~~~~
+      |                                                          |
+      |                                                          int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Elec Lab2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\Elec Lab2\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Elec Lab2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Elec Lab2.elf has a LOAD segment with RWX permissions
+Finished building target: Elec Lab2.elf
+ 
+arm-none-eabi-size  Elec\ Lab2.elf 
+arm-none-eabi-objdump -h -S Elec\ Lab2.elf  > "Elec Lab2.list"
+   text	   data	    bss	    dec	    hex	filename
+  38500	     24	   2408	  40932	   9fe4	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Elec Lab2.list
+ 
+13:03:40 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:816:58: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                           HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 2);
+      |                                                          ^~~~~~~~
+      |                                                          |
+      |                                                          int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+../Core/Src/main.c:817:42: error: subscripted value is neither array nor pointer nor vector
+  817 |                           if (rxBuffer[0][0] == '45') {
+      |                                          ^
+../Core/Src/main.c:817:49: warning: multi-character character constant [-Wmultichar]
+  817 |                           if (rxBuffer[0][0] == '45') {
+      |                                                 ^~~~
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+18:37:18 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Elec Lab2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\Elec Lab2\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Elec Lab2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Elec Lab2.elf has a LOAD segment with RWX permissions
+Finished building target: Elec Lab2.elf
+ 
+arm-none-eabi-size  Elec\ Lab2.elf 
+arm-none-eabi-objdump -h -S Elec\ Lab2.elf  > "Elec Lab2.list"
+   text	   data	    bss	    dec	    hex	filename
+  38500	     24	   2408	  40932	   9fe4	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Elec Lab2.list
+ 
+18:48:17 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-size  Elec\ Lab2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  38500	     24	   2408	  40932	   9fe4	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+18:48:34 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-size  Elec\ Lab2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  38500	     24	   2408	  40932	   9fe4	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+18:56:38 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-size  Elec\ Lab2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  38500	     24	   2408	  40932	   9fe4	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+19:18:56 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Elec Lab2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\Elec Lab2\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Elec Lab2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Elec Lab2.elf has a LOAD segment with RWX permissions
+Finished building target: Elec Lab2.elf
+ 
+arm-none-eabi-size  Elec\ Lab2.elf 
+arm-none-eabi-objdump -h -S Elec\ Lab2.elf  > "Elec Lab2.list"
+   text	   data	    bss	    dec	    hex	filename
+  38500	     24	   2408	  40932	   9fe4	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Elec Lab2.list
+ 
+19:20:50 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Elec Lab2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\Elec Lab2\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Elec Lab2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Elec Lab2.elf has a LOAD segment with RWX permissions
+Finished building target: Elec Lab2.elf
+ 
+arm-none-eabi-size  Elec\ Lab2.elf 
+arm-none-eabi-objdump -h -S Elec\ Lab2.elf  > "Elec Lab2.list"
+   text	   data	    bss	    dec	    hex	filename
+  38500	     24	   2408	  40932	   9fe4	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Elec Lab2.list
+ 
+19:22:21 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Elec Lab2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\Elec Lab2\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Elec Lab2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Elec Lab2.elf has a LOAD segment with RWX permissions
+Finished building target: Elec Lab2.elf
+ 
+arm-none-eabi-size  Elec\ Lab2.elf 
+arm-none-eabi-objdump -h -S Elec\ Lab2.elf  > "Elec Lab2.list"
+   text	   data	    bss	    dec	    hex	filename
+  38480	     24	   2408	  40912	   9fd0	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Elec Lab2.list
+ 
+19:26:57 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Elec Lab2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\Elec Lab2\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Elec Lab2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Elec Lab2.elf has a LOAD segment with RWX permissions
+Finished building target: Elec Lab2.elf
+ 
+arm-none-eabi-size  Elec\ Lab2.elf 
+arm-none-eabi-objdump -h -S Elec\ Lab2.elf  > "Elec Lab2.list"
+   text	   data	    bss	    dec	    hex	filename
+  38492	     24	   2408	  40924	   9fdc	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Elec Lab2.list
+ 
+19:38:38 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Elec Lab2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\Elec Lab2\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Elec Lab2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Elec Lab2.elf has a LOAD segment with RWX permissions
+Finished building target: Elec Lab2.elf
+ 
+arm-none-eabi-size  Elec\ Lab2.elf 
+arm-none-eabi-objdump -h -S Elec\ Lab2.elf  > "Elec Lab2.list"
+   text	   data	    bss	    dec	    hex	filename
+  38496	     24	   2408	  40928	   9fe0	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Elec Lab2.list
+ 
+19:42:46 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Elec Lab2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\Elec Lab2\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Elec Lab2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Elec Lab2.elf has a LOAD segment with RWX permissions
+Finished building target: Elec Lab2.elf
+ 
+arm-none-eabi-size  Elec\ Lab2.elf 
+arm-none-eabi-objdump -h -S Elec\ Lab2.elf  > "Elec Lab2.list"
+   text	   data	    bss	    dec	    hex	filename
+  38492	     24	   2408	  40924	   9fdc	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Elec Lab2.list
+ 
+19:49:03 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Elec Lab2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\Elec Lab2\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Elec Lab2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Elec Lab2.elf has a LOAD segment with RWX permissions
+Finished building target: Elec Lab2.elf
+ 
+arm-none-eabi-size  Elec\ Lab2.elf 
+arm-none-eabi-objdump -h -S Elec\ Lab2.elf  > "Elec Lab2.list"
+   text	   data	    bss	    dec	    hex	filename
+  38532	     24	   2408	  40964	   a004	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Elec Lab2.list
+ 
+19:52:49 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c:218:74: error: expected ')' before ';' token
+  218 |                   Vfeedback = (rxBuffer[1]*32676/(4096*4)*(rxBuffer[2]-2);
+      |                               ~                                          ^
+      |                                                                          )
+../Core/Src/main.c:224:20: error: expected ';' before '}' token
+  224 |                   }
+      |                    ^
+      |                    ;
+  225 |           }
+      |           ~         
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+19:53:15 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Elec Lab2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\Elec Lab2\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Elec Lab2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Elec Lab2.elf has a LOAD segment with RWX permissions
+Finished building target: Elec Lab2.elf
+ 
+arm-none-eabi-size  Elec\ Lab2.elf 
+arm-none-eabi-objdump -h -S Elec\ Lab2.elf  > "Elec Lab2.list"
+   text	   data	    bss	    dec	    hex	filename
+  38532	     24	   2408	  40964	   a004	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Elec Lab2.list
+ 
+19:53:56 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Elec Lab2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\Elec Lab2\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Elec Lab2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Elec Lab2.elf has a LOAD segment with RWX permissions
+Finished building target: Elec Lab2.elf
+ 
+arm-none-eabi-size  Elec\ Lab2.elf 
+arm-none-eabi-objdump -h -S Elec\ Lab2.elf  > "Elec Lab2.list"
+   text	   data	    bss	    dec	    hex	filename
+  38532	     24	   2408	  40964	   a004	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Elec Lab2.list
+ 
+20:08:50 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:808:49: warning: suggest parentheses around '+' in operand of '&' [-Wparentheses]
+  808 |                   ADCst = (uint8_t)((x*360/4096)+32768 & 0xFF);
+      |                                     ~~~~~~~~~~~~^~~~~~
+../Core/Src/main.c:809:49: warning: suggest parentheses around '+' inside '>>' [-Wparentheses]
+  809 |                   ADCnd = (uint8_t)((x*360/4096)+32768 >> 8) & 0xFF);
+      |                                     ~~~~~~~~~~~~^~~~~~
+../Core/Src/main.c:809:68: error: expected ';' before ')' token
+  809 |                   ADCnd = (uint8_t)((x*360/4096)+32768 >> 8) & 0xFF);
+      |                                                                    ^
+      |                                                                    ;
+../Core/Src/main.c:809:68: error: expected statement before ')' token
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+20:10:13 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:809:63: error: expected ';' before ')' token
+  809 |                   ADCnd = (uint8_t)(((x*360/4096)+32768)) >> 8) & 0xFF);
+      |                                                               ^
+      |                                                               ;
+../Core/Src/main.c:809:63: error: expected statement before ')' token
+../Core/Src/main.c:809:65: error: lvalue required as unary '&' operand
+  809 |                   ADCnd = (uint8_t)(((x*360/4096)+32768)) >> 8) & 0xFF);
+      |                                                                 ^
+../Core/Src/main.c:809:71: error: expected ';' before ')' token
+  809 |                   ADCnd = (uint8_t)(((x*360/4096)+32768)) >> 8) & 0xFF);
+      |                                                                       ^
+      |                                                                       ;
+../Core/Src/main.c:809:71: error: expected statement before ')' token
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+20:10:38 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:808:55: error: expected ';' before ')' token
+  808 |                   ADCst = (uint8_t)(x*360/4096) & 0xFF);
+      |                                                       ^
+      |                                                       ;
+../Core/Src/main.c:808:55: error: expected statement before ')' token
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+20:10:45 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Elec Lab2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\Elec Lab2\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Elec Lab2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Elec Lab2.elf has a LOAD segment with RWX permissions
+Finished building target: Elec Lab2.elf
+ 
+arm-none-eabi-size  Elec\ Lab2.elf 
+arm-none-eabi-objdump -h -S Elec\ Lab2.elf  > "Elec Lab2.list"
+   text	   data	    bss	    dec	    hex	filename
+  38532	     24	   2408	  40964	   a004	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Elec Lab2.list
+ 
+20:11:36 **** Incremental Build of configuration Debug for project Elec Lab2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/ARM_CMSIS/CMSIS/Core/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/PrivateInclude/ -I../Middlewares/Third_Party/ARM_CMSIS/Include/ -I../Middlewares/Third_Party/ARM_CMSIS/Include -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BasicMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/BayesFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/CommonTables" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ComplexMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/ControllerFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/DistanceFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FastMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/FilteringFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/InterpolationFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/MatrixFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/QuaternionMathFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/StatisticsFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SupportFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/SVMFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/TransformFunctions" -I"C:/Users/iffar/Downloads/Lab Control/control-lab2/Elec Lab2/Source/WindowFunctions" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  153 |   HAL_ADC_Start_DMA(&hadc1, ADC_RawRead, 2);
+      |                             ^~~~~~~~~~~
+      |                             |
+      |                             uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:228,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc.h:2242:78: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2242 | HAL_StatusTypeDef       HAL_ADC_Start_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+      |                                                                    ~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'HAL_TIM_PeriodElapsedCallback':
+../Core/Src/main.c:808:43: warning: suggest parentheses around '+' in operand of '&' [-Wparentheses]
+  808 |                   ADCst = (uint8_t)(32768 + x*360/4096 & 0xFF);
+      |                                     ~~~~~~^~~~~~~~~~~~
+../Core/Src/main.c:809:44: warning: suggest parentheses around '+' inside '>>' [-Wparentheses]
+  809 |                   ADCnd = (uint8_t)((32768 + x*360/4096 >> 8) & 0xFF);
+      |                                      ~~~~~~^~~~~~~~~~~~
+../Core/Src/main.c:816:50: warning: passing argument 2 of 'HAL_UART_Receive_IT' from incompatible pointer type [-Wincompatible-pointer-types]
+  816 |                   HAL_UART_Receive_IT(&hlpuart1, rxBuffer, 5);
+      |                                                  ^~~~~~~~
+      |                                                  |
+      |                                                  int16_t * {aka short int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:348:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:1637:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int16_t *' {aka 'short int *'}
+ 1637 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                  ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Elec Lab2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\Elec Lab2\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Elec Lab2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Elec Lab2.elf has a LOAD segment with RWX permissions
+Finished building target: Elec Lab2.elf
+ 
+arm-none-eabi-size  Elec\ Lab2.elf 
+arm-none-eabi-objdump -h -S Elec\ Lab2.elf  > "Elec Lab2.list"
+   text	   data	    bss	    dec	    hex	filename
+  38536	     24	   2408	  40968	   a008	Elec Lab2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Elec Lab2.list
+ 

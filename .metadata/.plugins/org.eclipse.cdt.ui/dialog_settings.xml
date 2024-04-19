@@ -15,4 +15,8 @@
 			<item value="setADC"/>
 		</list>
 	</section>
+	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration.internal">
+		<item key="size.width" value="779"/>
+		<item key="size.height" value="180"/>
+	</section>
 </section>
