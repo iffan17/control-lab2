@@ -5,5 +5,6 @@ configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:UART Debug,org.e
 eclipse.preferences.version=1
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Control\ Lab2\ Debug/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Control\ Lab2\ Debug/activeLaunchTarget=null\:---
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:MODBUS2024ALT\ Debug/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:X\ Debug/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:pretest1\ Debug/activeLaunchMode=debug
