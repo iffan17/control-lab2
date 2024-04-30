@@ -9,6 +9,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\iffar\Downloads\ModbusDemo2024\MODBUS2024ALT"/>
 			<item value="C:\Users\iffar\Downloads\Lab Control\control-lab2"/>
 		</list>
 	</section>
