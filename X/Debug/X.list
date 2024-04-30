@@ -1057,9 +1057,9 @@ void UARTPollingMethod()
  8000966:	b082      	sub	sp, #8
  8000968:	af00      	add	r7, sp, #0
 	//read UART 10 char with in 10s
-	HAL_StatusTypeDef HAL_status = HAL_UART_Receive(&huart1, RxBuffer, 10, 10000);
+	HAL_StatusTypeDef HAL_status = HAL_UART_Receive(&huart1, RxBuffer, 100, 10000);
  800096a:	f242 7310 	movw	r3, #10000	@ 0x2710
- 800096e:	220a      	movs	r2, #10
+ 800096e:	2264      	movs	r2, #100	@ 0x64
  8000970:	4920      	ldr	r1, [pc, #128]	@ (80009f4 <UARTPollingMethod+0x90>)
  8000972:	4821      	ldr	r0, [pc, #132]	@ (80009f8 <UARTPollingMethod+0x94>)
  8000974:	f002 f8be 	bl	8002af4 <HAL_UART_Receive>
@@ -1092,7 +1092,7 @@ void UARTPollingMethod()
  80009a0:	4917      	ldr	r1, [pc, #92]	@ (8000a00 <UARTPollingMethod+0x9c>)
  80009a2:	4815      	ldr	r0, [pc, #84]	@ (80009f8 <UARTPollingMethod+0x94>)
  80009a4:	f002 f818 	bl	80029d8 <HAL_UART_Transmit>
-		//return received char
+		//return received char     0
 		sprintf((char*)TxBuffer,"Received Timeout : %s\r\n",RxBuffer);
 		HAL_UART_Transmit(&huart1, TxBuffer, strlen((char*)TxBuffer), 10);
 

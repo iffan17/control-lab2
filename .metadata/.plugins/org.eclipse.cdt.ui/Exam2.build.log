@@ -1,10 +1,16 @@
-02:26:25 **** Incremental Build of configuration Debug for project Exam2 ****
+00:14:37 **** Build of configuration Debug for project Exam2 ****
 make -j16 all 
+arm-none-eabi-gcc -o "Exam2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\iffar\Downloads\Lab Control\control-lab2\Exam2\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Exam2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Exam2.elf
+ 
 arm-none-eabi-size  Exam2.elf 
+arm-none-eabi-objdump -h -S Exam2.elf  > "Exam2.list"
    text	   data	    bss	    dec	    hex	filename
   19396	     92	   2484	  21972	   55d4	Exam2.elf
 Finished building: default.size.stdout
  
+Finished building: Exam2.list
+ 
 
-02:26:25 Build Finished. 0 errors, 0 warnings. (took 447ms)
+00:14:38 Build Finished. 0 errors, 0 warnings. (took 1s.79ms)
 

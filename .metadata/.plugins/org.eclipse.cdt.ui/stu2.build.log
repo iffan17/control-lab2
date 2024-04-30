@@ -1,4 +1,4 @@
-19:09:07 **** Incremental Build of configuration Debug for project stu2 ****
+00:14:49 **** Build of configuration Debug for project stu2 ****
 make -j16 all 
 arm-none-eabi-size  stu2.elf 
    text	   data	    bss	    dec	    hex	filename
@@ -6,5 +6,5 @@ arm-none-eabi-size  stu2.elf
 Finished building: default.size.stdout
  
 
-19:09:09 Build Finished. 0 errors, 0 warnings. (took 2s.71ms)
+00:14:50 Build Finished. 0 errors, 0 warnings. (took 1s.348ms)
 
