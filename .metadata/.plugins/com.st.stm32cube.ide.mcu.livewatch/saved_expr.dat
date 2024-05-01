@@ -11,10 +11,15 @@ shelvePos
 registerFrame[0x24].U16
 temp
 registerFrame[0x21].U16
-goPick
-goPlace
+pick
+place
 goalPoint
 registerFrame[0x21].U16
 registerFrame[0x22].U16
 pick
 place
+registerFrame[0x01].U16)
+(registerFrame[0x10].U16) == 8
+Goal
+j
+registerFrame[0x00].U16
