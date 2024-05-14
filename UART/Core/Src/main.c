@@ -48,6 +48,11 @@ DMA_HandleTypeDef hdma_lpuart1_tx;
 /* USER CODE BEGIN PV */
 uint8_t RxBuffer[20];
 uint8_t TxBuffer[40];
+uint8_t output[20];
+uint8_t wordle[20] = "READY";
+uint8_t point = 0;
+uint8_t attempt = 0;
+uint8_t readFlag = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -60,6 +65,7 @@ void UARTPollingMethod();
 void DummyTask();
 void UARTInterruptConfig();
 void UARTDMAConfig();
+void Wordle();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -99,8 +105,8 @@ int main(void)
   MX_DMA_Init();
   MX_LPUART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t text[] = "HELLO FIBO";
-  HAL_UART_Transmit(&hluart1,text, 11, 10); // มี 10 �?ต่ส่ง 11 ตัวเพราะลงท้ายด้วย backslash zero
+  //uint8_t text[] = "HELLO FIBO";
+ // HAL_UART_Transmit(&hlpuart1,text, 11, 10); // มี 10 �?ต่ส่ง 11 ตัวเพราะลงท้ายด้วย backslash zero
   UARTDMAConfig();
   //HAL_UART_Transmit(ส่งด้วย , สิ่งที่ส่ง ,
   /* USER CODE END 2 */
@@ -111,6 +117,11 @@ int main(void)
   {
 	  UARTPollingMethod();
 	  DummyTask();
+	  if(readFlag){
+		  readFlag = 0;
+		  Wordle();
+	  }
+
 	  //UARTInterruptConfig();
 
     /* USER CODE END WHILE */
@@ -276,19 +287,66 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void Wordle()
+	{
+		//readFlag = 0;
+	for(uint8_t i = 0;i <5;i++)
+	{
+		output[5] = '\0';
+		if(RxBuffer[i] == '-')
+		{
+			output[0] = 'R';
+			output[1] = 'E';
+			output[2] = 'T';
+			output[3] = 'R';
+			output[4] = 'Y';
+			sprintf((char*)TxBuffer,"Received : %s\r\n",output);
+			HAL_UART_Transmit(&hlpuart1, output, strlen((char*)output) , 5); // uart1, text , size , timeout
+			break;
+		}
+		else if(RxBuffer[i] == wordle[i]){
+			output[i] = RxBuffer[i];
+			point++;
+
+		}
+		else {
+			for(uint8_t j=0; j<5;j++)
+			{
+				if(RxBuffer[i] == wordle[j])
+				{
+					output[i] = '?';
+					break;
+				}
+			}
+		}
+		if(output[i] != '?' && output[i] != RxBuffer[i])
+		{
+			output[i] = '_';
+		}
+	}
+	if(point == 5){
+		sprintf((char*)TxBuffer,"Congratulations\0");
+		HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5);
+	}
+	else{
+		point = 0;
+		attempt++;
+	}
+}
+
 void UARTPollingMethod()
 	{
 	//read UART 10 char with in 10s
-	HAL_StatusTypeDef HAL_status = HAL_UART_Receive(&hlpuart1, RxBuffer, 10, 10000);
+	HAL_StatusTypeDef HAL_status = HAL_UART_Receive(&hlpuart1, RxBuffer, 5, 10000);
 
 	//if complete read 10 char
 	if(HAL_status == HAL_OK)
 	{
-
-		RxBuffer[10] = '\0';
+		readFlag = 1;
+		RxBuffer[5] = '\0';
 
 		sprintf((char*)TxBuffer,"Received : %s\r\n",RxBuffer);
-		HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 10);
+		HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
 	}
 	else if(HAL_status == HAL_TIMEOUT)
 	{
@@ -298,7 +356,7 @@ void UARTPollingMethod()
 
 		//return received char
 		sprintf((char*)TxBuffer,"Received Timeout : %s\r\n",RxBuffer);
-		HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 10);
+		HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
 
 	}
 }
@@ -314,7 +372,7 @@ void DummyTask()
 }
 void UARTInterruptConfig()
 {
-	HAL_UART_Receive_IT(&hlpuart1, RxBuffer, 10);
+	//HAL_UART_Receive_IT(&hlpuart1, RxBuffer, 10);
 }
 void UARTDMAConfig()
 {

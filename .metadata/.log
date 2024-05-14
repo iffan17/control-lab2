@@ -8532,3 +8532,54 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64
 
 !ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-05-01 15:53:06.620
 !MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2024-05-01 16:00:58.851
+!MESSAGE Indexed 'MODBUS2024ALT' (24 sources, 121 headers) in 4.64 sec: 14,346 declarations; 80,058 references; 3 unresolved inclusions; 46 syntax errors; 171 unresolved names (0.18%)
+
+!ENTRY org.eclipse.ui.ide 4 4 2024-05-01 16:03:12.291
+!MESSAGE Problems saving workspace
+
+!ENTRY org.eclipse.ui.ide 2 1 2024-05-01 16:03:12.300
+!MESSAGE Problems occurred while trying to save the state of the workbench.
+!SUBENTRY 1 org.eclipse.core.resources 2 234 2024-05-01 16:03:12.300
+!MESSAGE The project description file (.project) for 'MODBUS2024ALT' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.
+
+!ENTRY org.eclipse.core.resources 2 10035 2024-05-01 16:03:12.457
+!MESSAGE The workspace will exit with unsaved changes in this session.
+!SESSION 2024-05-01 16:05:01.225 -----------------------------------------------
+eclipse.buildId=Version 1.15.0
+java.version=17.0.8.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.core.resources 2 10035 2024-05-01 16:05:20.203
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-05-01 16:05:23.629
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-05-01 16:05:23.630
+!MESSAGE Log4j2 initialized with config file C:\Users\iffar\Downloads\Lab Control\control-lab2\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-05-01 16:05:30.031
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2024-05-01 16:05:53.765 -----------------------------------------------
+eclipse.buildId=Version 1.15.0
+java.version=17.0.8.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  C:\Users\iffar\Downloads\ModbusDemo2024\Modbus-Studio-2\MODBUS2024ALT\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\iffar\Downloads\ModbusDemo2024\Modbus-Studio-2\MODBUS2024ALT\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-05-01 16:06:00.618
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-05-01 16:06:00.620
+!MESSAGE Log4j2 initialized with config file C:\Users\iffar\Downloads\Lab Control\control-lab2\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-05-01 16:06:07.616
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.core.jobs 2 2 2024-05-01 16:06:22.152
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: org.eclipse.ui.internal.Workbench$39
