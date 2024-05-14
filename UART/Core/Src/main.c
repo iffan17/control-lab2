@@ -48,8 +48,8 @@ DMA_HandleTypeDef hdma_lpuart1_tx;
 /* USER CODE BEGIN PV */
 uint8_t RxBuffer[20];
 uint8_t TxBuffer[40];
-uint8_t output[20];
-uint8_t wordle[20] = "READY";
+uint8_t output[6];
+uint8_t wordle[6] = "READY";
 uint8_t point = 0;
 uint8_t attempt = 0;
 uint8_t readFlag = 0;
@@ -116,8 +116,8 @@ int main(void)
   while (1)
   {
 	  UARTPollingMethod();
-	  DummyTask();
-	  if(readFlag){
+	  //DummyTask();
+	  if(readFlag && (attempt < 5 && point != 5)){
 		  readFlag = 0;
 		  Wordle();
 	  }
@@ -293,16 +293,12 @@ void Wordle()
 	for(uint8_t i = 0;i <5;i++)
 	{
 		output[5] = '\0';
-		if(RxBuffer[i] == '-')
+
+		if(RxBuffer[i] == '-') //retry press "-"
 		{
-			output[0] = 'R';
-			output[1] = 'E';
-			output[2] = 'T';
-			output[3] = 'R';
-			output[4] = 'Y';
-			sprintf((char*)TxBuffer,"Received : %s\r\n",output);
-			HAL_UART_Transmit(&hlpuart1, output, strlen((char*)output) , 5); // uart1, text , size , timeout
-			break;
+			sprintf((char*)TxBuffer,"Retrying");
+			HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5); // uart1, text , size , timeout
+			return;
 		}
 		else if(RxBuffer[i] == wordle[i]){
 			output[i] = RxBuffer[i];
@@ -319,33 +315,53 @@ void Wordle()
 				}
 			}
 		}
-		if(output[i] != '?' && output[i] != RxBuffer[i])
-		{
+		if(output[i] != '?' && output[i] != RxBuffer[i]){
 			output[i] = '_';
 		}
 	}
 	if(point == 5){
-		sprintf((char*)TxBuffer,"Congratulations\0");
+		sprintf((char*)TxBuffer,"Congratulations\n %s is correct\r\n", output);
 		HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5);
 	}
 	else{
 		point = 0;
 		attempt++;
+		if(attempt >= 5){
+				sprintf((char*)TxBuffer,"Game Over\n Correct Answer is %s\r\n", (char*)wordle);
+				HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5);
+		}
+		else if(RxBuffer[1] != '1'){
+			sprintf((char*)TxBuffer,"Wrong Answer \n Your word : %s\r\n", (char*)output);
+			HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5);
+			sprintf((char*)TxBuffer,"Remaining Attempt : %s\r\n", (char*)attempt);
+			HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5);
+		}
+
 	}
+
 }
 
 void UARTPollingMethod()
 	{
 	//read UART 10 char with in 10s
-	HAL_StatusTypeDef HAL_status = HAL_UART_Receive(&hlpuart1, RxBuffer, 5, 10000);
+	HAL_StatusTypeDef HAL_status = HAL_UART_Receive(&hlpuart1, RxBuffer, 5, 15000);
 
 	//if complete read 10 char
 	if(HAL_status == HAL_OK)
 	{
 		readFlag = 1;
 		RxBuffer[5] = '\0';
-
-		sprintf((char*)TxBuffer,"Received : %s\r\n",RxBuffer);
+		if(RxBuffer[0] == '1'){
+			point = 0;
+			attempt = 0;
+			sprintf((char*)TxBuffer,"Reset Completed");
+		}
+		else if(attempt >= 5 || point == 5){
+			sprintf((char*)TxBuffer,"Game halted, hold 1 to Continue\r\n");
+		}
+		else{
+			sprintf((char*)TxBuffer,"Your answer : %s\r\n",(char*)RxBuffer);
+		}
 		HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
 	}
 	else if(HAL_status == HAL_TIMEOUT)
@@ -355,7 +371,7 @@ void UARTPollingMethod()
 		RxBuffer[lastCharPos] = '\0';
 
 		//return received char
-		sprintf((char*)TxBuffer,"Received Timeout : %s\r\n",RxBuffer);
+		sprintf((char*)TxBuffer,"Received Timeout : %s, clearing text \r\n",RxBuffer);
 		HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
 
 	}
@@ -384,7 +400,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *hlpuart)
 	{
 		RxBuffer[10] = '\0';
 
-		sprintf((char*)TxBuffer,"Received : %s\r\n",RxBuffer);
+		sprintf((char*)TxBuffer,"Received : %s\r\n", RxBuffer);
 		HAL_UART_Transmit_IT(&hlpuart1, TxBuffer, strlen((char*)TxBuffer));
 
 		HAL_UART_Receive_IT(&hlpuart1, RxBuffer, 10);
