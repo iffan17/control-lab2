@@ -49,7 +49,7 @@ DMA_HandleTypeDef hdma_lpuart1_tx;
 uint8_t RxBuffer[20];
 uint8_t TxBuffer[60];
 uint8_t output[6];
-uint8_t wordle[6] = "READY";
+uint8_t wordle[6] = "PPDEK";
 uint8_t point = 0;
 uint8_t attempt = 0;
 uint8_t readFlag = 0;
@@ -128,7 +128,7 @@ int main(void)
 	  UARTPollingMethod();
 	  //DummyTask();
 
-	  if(readFlag && (attempt < 5 && point != 5)){
+	  if(readFlag && attempt < 5 && point != 5 && RxBuffer[0] != 1 && RxBuffer[4] != 1){
 		  readFlag = 0;
 		  Wordle();
 	  }
@@ -331,7 +331,7 @@ void Wordle()
 		}
 	}
 	if(point == 5){
-		sprintf((char*)TxBuffer,"Congratulations\n %s is correct\r\n", output);
+		sprintf((char*)TxBuffer,"\n Congratulations\n %s is correct\r\n", output);
 		HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5);
 	}
 	else{
@@ -344,7 +344,7 @@ void Wordle()
 		else if(RxBuffer[1] != '1'){
 			sprintf((char*)TxBuffer,"Wrong Answer \n Your word : %s\r\n", (char*)output);
 			HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5);
-			sprintf((char*)TxBuffer,"Remaining Attempts : %d/5 \r\n", (int)attempt);
+			sprintf((char*)TxBuffer,"Remaining Chances: %d/5 \r\n", (int)(5-attempt));
 			HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5);
 		}
 
@@ -382,7 +382,7 @@ void UARTPollingMethod()
 		RxBuffer[lastCharPos] = '\0';
 
 		//return received char
-		sprintf((char*)TxBuffer,"Caplock on, send S____ to begin\r\n");
+		sprintf((char*)TxBuffer,"turn CAPLOCK on, send S____ to begin\r\n");
 		HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
 
 	}
