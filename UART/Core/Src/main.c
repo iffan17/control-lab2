@@ -81,14 +81,13 @@ static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
 void UARTPollingMethod();
 void DummyTask();
-void SPITxRx_readIO();
-void IODIRB_Setup();
-void ReadSwitch();
+void SPI_Worker();
+void SPI_FirstSetup();
+void ButtonRead();
 
 //void UARTInterruptConfig();
 //void UARTDMAConfig();
 void Wordle();
-void LightSetup();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -144,8 +143,7 @@ int main(void)
   HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
   // UART END //
   // SPI CODE //
-  LightSetup();
-  IODIRB_Setup();
+  SPI_FirstSetup();
   HAL_TIM_Base_Start_IT(&htim2);
   // SPI END //
 
@@ -168,8 +166,8 @@ int main(void)
 	  }
 
 	  HAL_Delay(1);
-	  SPITxRx_readIO();
-	  ReadSwitch();
+	  SPI_Worker();
+	  ButtonRead();
 
 
   }
@@ -238,7 +236,7 @@ static void MX_LPUART1_UART_Init(void)
 
   /* USER CODE END LPUART1_Init 1 */
   hlpuart1.Instance = LPUART1;
-  hlpuart1.Init.BaudRate = 115200;
+  hlpuart1.Init.BaudRate = 57600;
   hlpuart1.Init.WordLength = UART_WORDLENGTH_8B;
   hlpuart1.Init.StopBits = UART_STOPBITS_1;
   hlpuart1.Init.Parity = UART_PARITY_NONE;
@@ -429,7 +427,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /*/ SPI Function begin /*/
-void IODIRB_Setup()//at BEGIN 2
+void SPI_FirstSetup()//at BEGIN 2
 {
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, 0);
 	SPITx[0] = 0b01000000;//write
@@ -438,7 +436,7 @@ void IODIRB_Setup()//at BEGIN 2
 	HAL_SPI_TransmitReceive_IT(&hspi3, SPITx, SPIRx, 3);
 }
 
-void SPITxRx_readIO()
+void SPI_Worker()
 {
 	if(HAL_GPIO_ReadPin(GPIOD,GPIO_PIN_2))
 	{
@@ -454,7 +452,25 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, 1); //CS dnSelect
 }
-
+void ButtonRead()
+{
+	if (SPIRx[2]==14)
+		{
+			Switch = 1;
+		}
+	else if (SPIRx[2]==13)
+		{
+			Switch = 2;
+		}
+	else if (SPIRx[2]==7)
+		{
+			Switch = 3;
+		}
+	else if (SPIRx[2]==11)
+		{
+			Switch = 4;
+		}
+}
 /*/ SPI Function end /*/
 
 void Wordle()
@@ -466,7 +482,7 @@ void Wordle()
 
 		if(RxBuffer[i] == '-') //retry press "-"
 		{
-			sprintf((char*)TxBuffer,"Retrying");
+			sprintf((char*)TxBuffer,"Deleting");
 			HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5); // uart1, text , size , timeout
 			return;
 		}
