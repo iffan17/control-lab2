@@ -45,6 +45,8 @@ UART_HandleTypeDef hlpuart1;
 DMA_HandleTypeDef hdma_lpuart1_rx;
 DMA_HandleTypeDef hdma_lpuart1_tx;
 
+SPI_HandleTypeDef hspi3;
+
 /* USER CODE BEGIN PV */
 uint8_t RxBuffer[20];
 uint8_t TxBuffer[60];
@@ -54,6 +56,12 @@ uint8_t point = 0;
 uint8_t attempt = 0;
 uint8_t readFlag = 0;
 uint8_t s = 2;
+
+// SPI //
+
+uint8_t SPIRx[10];
+uint8_t SPITx[10];
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -61,12 +69,15 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_LPUART1_UART_Init(void);
+static void MX_SPI3_Init(void);
 /* USER CODE BEGIN PFP */
 void UARTPollingMethod();
 void DummyTask();
-void UARTInterruptConfig();
-void UARTDMAConfig();
+void SPITxRx_readIO();
+//void UARTInterruptConfig();
+//void UARTDMAConfig();
 void Wordle();
+void LightSetup();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -105,10 +116,11 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_LPUART1_UART_Init();
+  MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
-  //uint8_t text[] = "HELLO FIBO";
- // HAL_UART_Transmit(&hlpuart1,text, 11, 10); // มี 10 �?ต่ส่ง 11 ตัวเพราะลงท้ายด้วย backslash zero
-  UARTDMAConfig();
+
+  // UART CODE //
+  //UARTDMAConfig();
   //HAL_UART_Transmit(ส่งด้วย , สิ่งที่ส่ง ,
   sprintf((char*)TxBuffer,"Welcome to WORDLE, You have 5 attempts to guess the word\r\n\n");
   HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
@@ -118,6 +130,12 @@ int main(void)
   HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
   sprintf((char*)TxBuffer,"Turn CAPLOCK on and begin typing \r\n");
   HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
+  // UART END //
+  // SPI CODE //
+  LightSetup();
+  // SPI END //
+
+
 
   /* USER CODE END 2 */
 
@@ -126,18 +144,15 @@ int main(void)
   while (1)
   {
 	  UARTPollingMethod();
-	  //DummyTask();
+	  //UARTInterruptConfig();
+    /* USER CODE END WHILE */
 
+    /* USER CODE BEGIN 3 */
 	  if(readFlag && attempt < 5 && point != 5 && RxBuffer[0] != 1 && RxBuffer[4] != 1){
 		  readFlag = 0;
 		  Wordle();
 	  }
-
-	  //UARTInterruptConfig();
-
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
+	  SPITxRx_readIO();
 
   }
   /* USER CODE END 3 */
@@ -237,6 +252,46 @@ static void MX_LPUART1_UART_Init(void)
 }
 
 /**
+  * @brief SPI3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_SPI3_Init(void)
+{
+
+  /* USER CODE BEGIN SPI3_Init 0 */
+
+  /* USER CODE END SPI3_Init 0 */
+
+  /* USER CODE BEGIN SPI3_Init 1 */
+
+  /* USER CODE END SPI3_Init 1 */
+  /* SPI3 parameter configuration*/
+  hspi3.Instance = SPI3;
+  hspi3.Init.Mode = SPI_MODE_MASTER;
+  hspi3.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi3.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi3.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi3.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi3.Init.NSS = SPI_NSS_SOFT;
+  hspi3.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
+  hspi3.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi3.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi3.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi3.Init.CRCPolynomial = 7;
+  hspi3.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+  hspi3.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+  if (HAL_SPI_Init(&hspi3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN SPI3_Init 2 */
+
+  /* USER CODE END SPI3_Init 2 */
+
+}
+
+/**
   * Enable DMA controller clock
   */
 static void MX_DMA_Init(void)
@@ -271,10 +326,14 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_SET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -289,6 +348,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : PD2 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
@@ -298,6 +364,33 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void LightSetup()//at BEGIN 2
+{
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, 0);
+	SPITx[0] = 0b01000000;//write
+	SPITx[1] = 0x01;//IODIRB
+	SPITx[2] = 0b00000000;
+	HAL_SPI_TransmitReceive_IT(&hspi3, SPITx, SPIRx, 3);
+}
+void SPITxRx_readIO()
+{
+	if(HAL_GPIO_ReadPin(GPIOD,GPIO_PIN_2))
+	{
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, 0); // CS Select
+	SPITx[0] = 0b01000001;
+	SPITx[1] = 0x12;
+	SPITx[2] = 0;
+	SPITx[3] = 0;
+	HAL_SPI_TransmitReceive_IT(&hspi3, SPITx, SPIRx, 4);
+	}
+}
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, 1); //CS dnSelect
+}
+
+
+
 void Wordle()
 	{
 		//readFlag = 0;
@@ -397,26 +490,7 @@ void DummyTask()
 		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 	}
 }
-void UARTInterruptConfig()
-{
-	//HAL_UART_Receive_IT(&hlpuart1, RxBuffer, 10);
-}
-void UARTDMAConfig()
-{
-	HAL_UART_Receive_DMA(&hlpuart1, RxBuffer, 10);
-}
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *hlpuart)
-{
-	if(hlpuart == &hlpuart1)
-	{
-		RxBuffer[10] = '\0';
 
-		sprintf((char*)TxBuffer,"Received : %s\r\n", RxBuffer);
-		HAL_UART_Transmit_IT(&hlpuart1, TxBuffer, strlen((char*)TxBuffer));
-
-		HAL_UART_Receive_IT(&hlpuart1, RxBuffer, 10);
-	}
-}
 
 
 
