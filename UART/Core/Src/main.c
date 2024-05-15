@@ -51,9 +51,9 @@ TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
 uint8_t RxBuffer[20];
-uint8_t TxBuffer[60];
+uint8_t TxBuffer[80];
 uint8_t output[6];
-uint8_t wordle[6] = "PPDEK";
+uint8_t wordle[6] = "MICRO";
 uint8_t point = 0;
 uint8_t attempt = 0;
 uint8_t readFlag = 0;
@@ -64,7 +64,7 @@ uint8_t s = 2;
 uint8_t SPIRx[10];
 uint8_t SPITx[10];
 uint8_t Mode;
-uint8_t Switch = 1;
+uint8_t Switch = 0;
 uint8_t LMode1 = 1;
 uint8_t n = 0;
 
@@ -133,13 +133,13 @@ int main(void)
   // UART CODE //
   //UARTDMAConfig();
   //HAL_UART_Transmit(ส่งด้วย , สิ่งที่ส่ง ,
-  sprintf((char*)TxBuffer,"Welcome to WORDLE, You have 5 attempts to guess the word\r\n\n");
+  sprintf((char*)TxBuffer,"Welcome to WORDLE, You have 5 chances to guess the word\r\n\n");
   HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
-  sprintf((char*)TxBuffer,"PRESS - to clear your word\r\n");
+  sprintf((char*)TxBuffer,"PRESS [Button 1] to clear your word\r\n");
   HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
-  sprintf((char*)TxBuffer,"SEND 11111 to re-attempt \n\n");
+  sprintf((char*)TxBuffer,"PRESS [Button 2] to Retry \n\n");
   HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
-  sprintf((char*)TxBuffer,"Turn CAPLOCK on and begin typing \r\n");
+  sprintf((char*)TxBuffer,"Turn CAPLOCK on and begin typing\r\n");
   HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
   // UART END //
   // SPI CODE //
@@ -160,14 +160,13 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  if(readFlag && attempt < 5 && point != 5 && RxBuffer[0] != 1 && RxBuffer[4] != 1){
+	  if(readFlag && attempt < 5 && point != 5 && RxBuffer[0] != '1' && RxBuffer[4] != '1'){
 		  readFlag = 0;
 		  Wordle();
 	  }
 
-	  HAL_Delay(1);
-	  SPI_Worker();
-	  ButtonRead();
+	  //HAL_Delay(1);
+
 
 
   }
@@ -236,7 +235,7 @@ static void MX_LPUART1_UART_Init(void)
 
   /* USER CODE END LPUART1_Init 1 */
   hlpuart1.Instance = LPUART1;
-  hlpuart1.Init.BaudRate = 57600;
+  hlpuart1.Init.BaudRate = 230400;
   hlpuart1.Init.WordLength = UART_WORDLENGTH_8B;
   hlpuart1.Init.StopBits = UART_STOPBITS_1;
   hlpuart1.Init.Parity = UART_PARITY_NONE;
@@ -440,12 +439,14 @@ void SPI_Worker()
 {
 	if(HAL_GPIO_ReadPin(GPIOD,GPIO_PIN_2))
 	{
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, 0); // CS Select
-	SPITx[0] = 0b01000001;
-	SPITx[1] = 0x12;
-	SPITx[2] = 0;
-	SPITx[3] = 0;
-	HAL_SPI_TransmitReceive_IT(&hspi3, SPITx, SPIRx, 4);
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, 0); // CS Select
+
+		SPITx[0] = 0b01000001;//read
+		SPITx[1] = 0x12;
+		SPITx[2] = 0;
+
+		HAL_SPI_TransmitReceive_IT(&hspi3, SPITx, SPIRx, 3);
+
 	}
 }
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
@@ -480,10 +481,11 @@ void Wordle()
 	{
 		output[5] = '\0';
 
-		if(RxBuffer[i] == '-') //retry press "-"
+		if(Switch == 3) //retry press "-"
 		{
-			sprintf((char*)TxBuffer,"Deleting");
-			HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5); // uart1, text , size , timeout
+			Switch = 0;
+//			sprintf((char*)TxBuffer,"Answer Cleared\r\n");
+//			HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5); // uart1, text , size , timeout
 			return;
 		}
 		else if(RxBuffer[i] == wordle[i]){
@@ -506,18 +508,18 @@ void Wordle()
 		}
 	}
 	if(point == 5){
-		sprintf((char*)TxBuffer,"\n Congratulations\n %s is correct\r\n", output);
+		sprintf((char*)TxBuffer,"\n Congratulations!\n %s is correct\r\n", output);
 		HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5);
 	}
 	else{
 		point = 0;
 		attempt++;
 		if(attempt >= 5){
-				sprintf((char*)TxBuffer,"\n Game Over\r\n\n Correct Answer is %s\n\r\n", (char*)wordle);
+				sprintf((char*)TxBuffer,"\nGame Over!\r\n\n Correct Answer is %s\n\r\n", (char*)wordle);
 				HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5);
 		}
 		else if(RxBuffer[1] != '1'){
-			sprintf((char*)TxBuffer,"Wrong Answer \n Your word : %s\r\n", (char*)output);
+			sprintf((char*)TxBuffer,"Wrong Answer \n Your Word : %s\r\n", (char*)output);
 			HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5);
 			sprintf((char*)TxBuffer,"Remaining Chances: %d/5 \r\n", (int)(5-attempt));
 			HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5);
@@ -532,18 +534,16 @@ void UARTPollingMethod()
 	//read UART 10 char with in 10s
 	HAL_StatusTypeDef HAL_status = HAL_UART_Receive(&hlpuart1, RxBuffer, 5, 15000);
 
-	//if complete read 10 char
+	//if complete read 5 char
 	if(HAL_status == HAL_OK)
 	{
 		readFlag = 1;
 		RxBuffer[5] = '\0';
-		if(RxBuffer[0] == '1' || RxBuffer[4] == '1'){
-			point = 0;
-			attempt = 0;
-			sprintf((char*)TxBuffer,"Reset Completed");
+		if(Switch == 3){
+			sprintf((char*)TxBuffer,"Completed\r\n");
 		}
 		else if(attempt >= 5 || point == 5){
-			sprintf((char*)TxBuffer,"Game Halted, SEND 11111 to re-attempt\r\n");
+			sprintf((char*)TxBuffer,"Game Ended, press [Button 2] to re-attempt\r\n");
 		}
 		else{
 			sprintf((char*)TxBuffer,"Your answer : %s\r\n",(char*)RxBuffer);
@@ -557,22 +557,34 @@ void UARTPollingMethod()
 		RxBuffer[lastCharPos] = '\0';
 
 		//return received char
-		sprintf((char*)TxBuffer,"turn CAPLOCK on, send S____ to begin\r\n");
+		sprintf((char*)TxBuffer,"Make sure to turn CAPLOCK on before typing\r\n");
 		HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
 
 	}
 }
-//Blink LED 5 Hz
-void DummyTask()
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	static uint32_t timestamp=0;
-	if(HAL_GetTick()>= timestamp)
+	if (htim == &htim2)
 	{
-		timestamp = HAL_GetTick()+100;
-		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+		  SPI_Worker();
+		  ButtonRead();
+			if(Switch == 2){
+				Switch = 3;
+				point = 0;
+				attempt = 0;
+				RxBuffer[0] = '1';
+				sprintf((char*)TxBuffer,"Resetting\r\n");
+				HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
+			}
+			else if(Switch == 1) //retry press "-"
+			{
+				Switch = 3;
+				sprintf((char*)TxBuffer,"Submit message to clear\r\n");
+				HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer) , 5);
+			}
 	}
 }
-
 
 
 
