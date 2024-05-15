@@ -47,6 +47,8 @@ DMA_HandleTypeDef hdma_lpuart1_tx;
 
 SPI_HandleTypeDef hspi3;
 
+TIM_HandleTypeDef htim2;
+
 /* USER CODE BEGIN PV */
 uint8_t RxBuffer[20];
 uint8_t TxBuffer[60];
@@ -61,6 +63,11 @@ uint8_t s = 2;
 
 uint8_t SPIRx[10];
 uint8_t SPITx[10];
+uint8_t Mode;
+uint8_t Switch = 1;
+uint8_t LMode1 = 1;
+uint8_t n = 0;
+
 
 /* USER CODE END PV */
 
@@ -70,10 +77,14 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_LPUART1_UART_Init(void);
 static void MX_SPI3_Init(void);
+static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
 void UARTPollingMethod();
 void DummyTask();
 void SPITxRx_readIO();
+void IODIRB_Setup();
+void ReadSwitch();
+
 //void UARTInterruptConfig();
 //void UARTDMAConfig();
 void Wordle();
@@ -117,6 +128,7 @@ int main(void)
   MX_DMA_Init();
   MX_LPUART1_UART_Init();
   MX_SPI3_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
   // UART CODE //
@@ -133,6 +145,8 @@ int main(void)
   // UART END //
   // SPI CODE //
   LightSetup();
+  IODIRB_Setup();
+  HAL_TIM_Base_Start_IT(&htim2);
   // SPI END //
 
 
@@ -152,7 +166,11 @@ int main(void)
 		  readFlag = 0;
 		  Wordle();
 	  }
+
+	  HAL_Delay(1);
 	  SPITxRx_readIO();
+	  ReadSwitch();
+
 
   }
   /* USER CODE END 3 */
@@ -292,6 +310,51 @@ static void MX_SPI3_Init(void)
 }
 
 /**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 16999;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 999;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
+
+}
+
+/**
   * Enable DMA controller clock
   */
 static void MX_DMA_Init(void)
@@ -364,7 +427,9 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void LightSetup()//at BEGIN 2
+
+/*/ SPI Function begin /*/
+void IODIRB_Setup()//at BEGIN 2
 {
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, 0);
 	SPITx[0] = 0b01000000;//write
@@ -372,6 +437,7 @@ void LightSetup()//at BEGIN 2
 	SPITx[2] = 0b00000000;
 	HAL_SPI_TransmitReceive_IT(&hspi3, SPITx, SPIRx, 3);
 }
+
 void SPITxRx_readIO()
 {
 	if(HAL_GPIO_ReadPin(GPIOD,GPIO_PIN_2))
@@ -389,7 +455,7 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, 1); //CS dnSelect
 }
 
-
+/*/ SPI Function end /*/
 
 void Wordle()
 	{
