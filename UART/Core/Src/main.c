@@ -65,7 +65,7 @@ uint8_t SPIRx[10];
 uint8_t SPITx[10];
 uint8_t Mode;
 uint8_t Switch = 0;
-uint8_t LMode1 = 1;
+
 uint8_t n = 0;
 
 
@@ -137,7 +137,7 @@ int main(void)
   HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
   sprintf((char*)TxBuffer,"PRESS [Button 1] to clear your word\r\n");
   HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
-  sprintf((char*)TxBuffer,"PRESS [Button 2] to Retry \n\n");
+  sprintf((char*)TxBuffer,"PRESS [Button 2] to Restart \n\n");
   HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
   sprintf((char*)TxBuffer,"Turn CAPLOCK on and begin typing\r\n");
   HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
@@ -574,7 +574,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				point = 0;
 				attempt = 0;
 				RxBuffer[0] = '1';
-				sprintf((char*)TxBuffer,"Resetting\r\n");
+				sprintf((char*)TxBuffer,"Restarting\r\n");
 				HAL_UART_Transmit(&hlpuart1, TxBuffer, strlen((char*)TxBuffer), 5);
 			}
 			else if(Switch == 1) //retry press "-"
